@@ -12,7 +12,7 @@ gerar_desenvolvimento() {
     #salvar_standalone_xml "$JBOSS_DESENVOLVIMENTO_DIR" 2
     extrair_jboss_bpmsuite "$JBOSS_DESENVOLVIMENTO_DIR"
     #salvar_standalone_xml "$JBOSS_DESENVOLVIMENTO_DIR" 3
-    aplicar_patch_do_jboss_bpmsuite "$JBOSS_DESENVOLVIMENTO_DIR"
+    aplicar_patches_do_jboss_bpmsuite "$JBOSS_DESENVOLVIMENTO_DIR"
     #salvar_standalone_xml "$JBOSS_DESENVOLVIMENTO_DIR" 4
     extrair_keycloak_overlay "$JBOSS_DESENVOLVIMENTO_DIR"
     extrair_keycloak_adapter "$JBOSS_DESENVOLVIMENTO_DIR"

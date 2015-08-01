@@ -10,6 +10,8 @@ source "$COMUM_DIR/funcoes.sh"
 
 mostrar_cabecalho
 
+REMOVER_GERADOS=false
+SAIR=false
 while [ "$1" ]
 do
     case "$1" in
@@ -22,18 +24,23 @@ do
             export AMBIENTE=$1
             echo "Ambiente alterado (via linha de comando) para \"$AMBIENTE\""
             ;;
-        -r|--remover) 
-            remover_gerados
-            ;;
-        -s|--sair)
-            exit
-            ;;
+        -r|--remover) REMOVER_GERADOS=true;;
+        -s|--sair) SAIR=true;;
     esac
     shift
 done
 
 d="$PROJECT_HOME/$AMBIENTE"
 [ -d "$d" ] || { echo "O diretório \"$d\" não existe!"; exit 1; } 
+
+if [ "$AMBIENTE" = desenvolvimento ]
+then
+    $REMOVER_GERADOS && remover_gerados "$JBOSS_DESENVOLVIMENTO_DIR"
+else
+    $REMOVER_GERADOS && remover_gerados
+fi
+
+$SAIR && exit
 
 script="$d"/funcoes.sh
 [ -f "$script" ] || { echo "O arquivo de funções \"$script\" não está presente!"; exit 1; }

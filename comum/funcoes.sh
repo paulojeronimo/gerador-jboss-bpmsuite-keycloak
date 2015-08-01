@@ -58,14 +58,17 @@ data_e_hora() {
 }
 
 remover_gerados() {
+    local dir=${1:-$PROJECT_HOME}
     echo "Removendo arquivos e diretórios gerados ..."
 
-    find "$PROJECT_HOME" \
-        \( -type d -name $JBOSS_EAP_DIR \) -o \
-        \( -type f -name ${JBOSS_EAP_DIR}.zip \) -o \
-        \( -type f -name ${JBOSS_EAP_DIR}.remove.bat \) -o \
-        \( -type d -name $JBOSS_BPMSUITE_PATCH_DIR \) | xargs rm -rf
-    find "$PROJECT_HOME" -type d -empty -delete
+    find "$dir" \( -type d -name $JBOSS_EAP_DIR \) \
+        -o \( -type f -name ${JBOSS_EAP_DIR}.zip \) \
+        -o \( -type f -name ${JBOSS_EAP_DIR}.remove.bat \) \
+        -o \( -type d -name $JBOSS_BPMSUITE_PATCH_DIR_1 \) \
+        -o \( -type d -name $JBOSS_BPMSUITE_PATCH_DIR_2 \) \
+        | xargs rm -rf
+
+    #find "$PROJECT_HOME" -type d -empty -delete
 }
 
 verificar_downloads() {
@@ -77,7 +80,8 @@ verificar_downloads() {
         $JBOSS_EAP \
         $JBOSS_EAP_PATCH \
         $JBOSS_BPMSUITE \
-        $JBOSS_BPMSUITE_PATCHES \
+        $JBOSS_BPMSUITE_PATCH_1 \
+        $JBOSS_BPMSUITE_PATCH_2 \
         $KEYCLOAK_OVERLAY \
         $KEYCLOAK_ADAPTER \
         $ORACLE_DRIVER
@@ -235,18 +239,18 @@ aplicar_patches() {
     cd - &> /dev/null
 }
 
-aplicar_patch_do_jboss_bpmsuite() {
+aplicar_jboss_bpmsuite_patch_1() {
     local dir=$1
-    local patch_script=$dir/$JBOSS_BPMSUITE_PATCH_DIR/apply-updates.sh
+    local patch_script=$dir/$JBOSS_BPMSUITE_PATCH_DIR_1/apply-updates.sh
     local patch_dir=`dirname "$patch_script"`
 
-    log "Aplicando o patch \"$JBOSS_BPMSUITE_PATCH\" no JBoss BPM Suite" true
+    log "Aplicando o patch \"$JBOSS_BPMSUITE_PATCH_1\" no JBoss BPM Suite" true
 
     log "Removendo o diretório \"$patch_dir\""
     rm -rf "$patch_dir"
 
     log "Extraindo o arquivo do patch"
-    unzip -qo -d "$dir" "$BIN_DIR"/"$JBOSS_BPMSUITE_PATCH"
+    unzip -qo -d "$dir" "$BIN_DIR"/"$JBOSS_BPMSUITE_PATCH_1"
 
     if [ "$OSTYPE" = "cygwin" ]
     then
@@ -267,6 +271,47 @@ EOF
     cd "$patch_dir" 
     "$patch_script" "$dir/$JBOSS_EAP_DIR" eap6.x
     cd - &> /dev/null
+}
+
+aplicar_jboss_bpmsuite_patch_2() {
+    local dir=$1
+    local patch_dir=$dir/$JBOSS_BPMSUITE_PATCH_DIR_2
+    local jboss_patch_dir=$dir/$JBOSS_EAP_DIR/standalone/deployments/business-central.war/WEB-INF/lib
+
+    log "Aplicando o patch \"$JBOSS_BPMSUITE_PATCH_2\" no JBoss BPM Suite" true
+
+    log "Removendo o diretório \"$patch_dir\""
+    rm -rf "$patch_dir"
+
+    log "Extraindo o arquivo do patch"
+    unzip -qo -d "$dir" "$BIN_DIR"/"$JBOSS_BPMSUITE_PATCH_2"
+
+    log "Adicionando a extensão .backup nos arquivos que serão substituidos"
+    cd "$jboss_patch_dir"
+    for f in \
+        jbpm-executor-6.2.0.Final-redhat-6.jar \
+        jbpm-persistence-jpa-6.2.0.Final-redhat-6.jar
+    do
+        mv $f $f.backup
+    done
+    cd - &> /dev/null
+
+    log "Copiando os arquivos do patch"
+    cd "$patch_dir"
+    for f in \
+        jbpm-executor-6.2.0.Final-redhat-6-BZ-1234592.jar \
+        jbpm-persistence-jpa-6.2.0.Final-redhat-6-BZ-1234592.jar
+    do
+        cp $f "$jboss_patch_dir"
+    done
+    cd - &> /dev/null
+}
+
+aplicar_patches_do_jboss_bpmsuite() {
+    local dir=$1
+
+    aplicar_jboss_bpmsuite_patch_1 "$dir"
+    aplicar_jboss_bpmsuite_patch_2 "$dir"
 }
 
 remover_modo() {

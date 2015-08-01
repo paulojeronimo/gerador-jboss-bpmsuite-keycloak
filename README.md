@@ -110,7 +110,7 @@ Se for necessário remover os bancos de dados do BPMS e do KEYCLOAK, o seguinte 
 
 Ajuste o valor da variável JBOSS_HOME para a localização do JBoss gerado. Em seguida, inicie o JBoss:
 ```
-$JBOSS_HOME/standalone.sh
+$JBOSS_HOME/bin/standalone.sh
 ```
 
 Acesse a interface administrativa do JBoss em http://localhost:9990. O "usuário/senha" pré-configurado para esse acesso é "admin/redhat@123".

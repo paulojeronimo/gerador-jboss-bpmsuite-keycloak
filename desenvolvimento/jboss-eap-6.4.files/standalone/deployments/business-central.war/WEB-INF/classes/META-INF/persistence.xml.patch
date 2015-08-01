@@ -1,5 +1,5 @@
---- persistence.xml.original	2015-07-31 14:49:02.000000000 -0300
-+++ persistence.xml	2015-07-31 14:49:02.000000000 -0300
+--- persistence.xml.original	2015-08-01 18:15:11.000000000 -0300
++++ persistence.xml	2015-08-01 18:20:47.000000000 -0300
 @@ -16,7 +16,7 @@
  
    <persistence-unit name="org.jbpm.domain" transaction-type="JTA">
@@ -14,7 +14,7 @@
  
      <properties>
 -      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-+	  <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
++	  <property name="hibernate.dialect" value="org.jbpm.persistence.jpa.hibernate.DisabledFollowOnLockOracle10gDialect" />
  
        <property name="hibernate.max_fetch_depth" value="3" />
        <property name="hibernate.hbm2ddl.auto" value="update" />
