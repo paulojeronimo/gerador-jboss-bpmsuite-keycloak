@@ -86,13 +86,24 @@ Execute a função ``jboss_instalar`` e observe que, ao final da execução dess
 
 #### Criação dos bancos de dados
 
-Se for o primeiro uso do ambiente, será necessário criar os bancos de dados no Oracle. Então, inicie-o. Se você estiver utilizando o Vagrant para gerenciá-lo através do projeto [docker-oracle-xe][docker-oracle-xe], a inicialização do Oracle XE pode ser realizada através da execução do comando ``vagrant up`` no diretório desse projeto.
+Se for o primeiro uso do ambiente, será necessário criar os bancos de dados no Oracle. Então, inicie-o. Uma forma de fazer isso, se você estiver utilizando o projeto [docker-oracle-xe][docker-oracle-xe], é configurando a variável ``DOCKER_ORACLE_XE_HOME`` no arquivo ``gerar.config`` para, em seguida, executar este próximo comando:
+```
+./oracle up
+```
 
 Para a execução de scripts SQL no Oracle podem ser utilizados o [sqlplus][sqlplus] e o [Oracle SQL Developer][sql-developer]. Recentemente, a Oracle também lançou o aplicativo [SQLcl][sqlcl] que é utilizado por scripts deste projeto. Então, será necessária a sua instalação.
 
-Após instalar o sqlcl, configure variável de ambiente ``SQLCL_HOME`` informando a localização onde foi extraído esse produto. Em seguida, recrie os bancos de dados do JBoss BPM Suite e do Keycloak executando o seguinte script:
+Após instalar o sqlcl, configure variável de ambiente ``SQLCL_HOME`` informando a localização onde foi extraído esse produto. Essa variável também pode ser configurada no arquivo ``gerar.config`` se já não estiver configurada externamente. Em seguida, crie os bancos de dados do JBoss BPM Suite e do Keycloak executando o seguinte script:
 ```
-./recriar-bancos.sh
+./oracle create-databases
+```
+
+#### Destruição dos bancos de dados
+
+Se for necessário remover os bancos de dados do BPMS e do KEYCLOAK, o seguinte comando pode ser executado:
+
+```
+./oracle drop-databases
 ```
 
 #### Inicialização do JBoss

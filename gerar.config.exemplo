@@ -23,6 +23,12 @@ KEYCLOAK_OVERLAY=keycloak-overlay-eap6-1.4.0.Final.zip
 KEYCLOAK_ADAPTER=keycloak-eap6-adapter-dist-1.4.0.Final.zip
 ORACLE_DRIVER=ojdbc7.jar
 
+################################
+# Projetos externos (auxiliares)
+################################
+DOCKER_ORACLE_XE_HOME=${DOCKER_ORACLE_XE_HOME:-~/Projects/github.com/paulojeronimo/docker-oracle-xe}
+SQLCL_HOME=${SQLCL_HOME:-~/Projects/github.com/paulojeronimo/javaee-ambiente/ferramentas/sqlcl}
+
 ########################
 # Diretórios (relativos)
 ########################

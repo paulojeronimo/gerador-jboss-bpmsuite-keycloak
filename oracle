@@ -1,0 +1,24 @@
+#!/bin/bash
+
+BASEDIR=`cd "$(dirname "$0")"; pwd`
+source "$BASEDIR"/gerar.config &> /dev/null || {
+    source "$BASEDIR"/gerar.config.exemplo || exit
+}
+SQL_DIR=${SQL_DIR:-$BASEDIR/scripts-sql}
+SQL_USER=${SQL_USER:-system}
+SQL_PASSWORD=${SQL_PASSWORD:-oracle}
+SQL_HOST=${SQL_HOST:-localhost}
+sql=$SQLCL_HOME/bin/sql
+
+case $1 in
+    up|halt|status)
+        cd "$DOCKER_ORACLE_XE_HOME"
+        vagrant $1
+        ;;
+    create-databases|drop-databases)
+        $sql -S $SQL_USER/$SQL_PASSWORD@//$SQL_HOST:1521 <<EOF
+@"$SQL_DIR/$1.sql"
+quit;
+EOF
+        ;;
+esac
