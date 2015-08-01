@@ -1,7 +1,7 @@
 #!/bin/bash
 
 instala_jboss() {
-    local script="$JBOSS_INSTALA_DIR"/gerar.sh
+    local script="$JBOSS_INSTALA_DIR"/gerar
 
     echo -e "\nInstalando JBoss BPM Suite + Keycloak através do script \"$script\"\n"
     BIN_DIR="$INSTALADORES_DIR" JBOSS_DESENVOLVIMENTO_DIR="$FERRAMENTAS_DIR" "$script" -a desenvolvimento
