@@ -1,0 +1,63 @@
+#!/bin/bash
+
+##################################################
+# Ambiente (default) em que o JBoss será instalado
+##################################################
+AMBIENTE=${AMBIENTE:-desenvolvimento}
+
+##########################################################
+# Diretório com a localização dos binários para instalação
+##########################################################
+BIN_DIR=${BIN_DIR:-$PROJECT_HOME/binarios}
+
+##############################################
+# Arquivos binários utilizados para instalação
+##############################################
+JBOSS_EAP=jboss-eap-6.4.0.zip
+JBOSS_EAP_PATCH=jboss-eap-6.4.2-patch.zip
+JBOSS_EAP_NATIVE_UTILS=jboss-eap-native-utils-6.4.0-win6.x86_64.zip
+JBOSS_BPMSUITE=jboss-bpmsuite-6.1.0.GA-deployable-eap6.x.zip
+JBOSS_BPMSUITE_PATCH=jboss-bpmsuite-6.1.1-patch.zip
+JBOSS_BPMSUITE_PATCHES="$JBOSS_BPMSUITE_PATCH BZ-1234592-patch-for-6.1.1.zip"
+KEYCLOAK_OVERLAY=keycloak-overlay-eap6-1.4.0.Final.zip
+KEYCLOAK_ADAPTER=keycloak-eap6-adapter-dist-1.4.0.Final.zip
+ORACLE_DRIVER=ojdbc7.jar
+
+########################
+# Diretórios (relativos)
+########################
+# Nome do diretório (relativo) contendo a estrutura do JBoss
+JBOSS_EAP_DIR=jboss-eap-6.4
+# Diretório criado na extração do arquivo JBOSS_BPMSUITE_PATCH
+JBOSS_BPMSUITE_PATCH_DIR=jboss-bpmsuite-6.1.1-patch
+# Nome do diretório (relativo) que contém a estrutura que será configurada no JBoss
+JBOSS_A_CONFIGURAR_DIR=jboss-eap-6.4.files
+
+################################# 
+# Diretórios (caminhos completos)
+#################################
+# Caminho completo com configurações comuns a todos os ambientes
+COMUM_DIR=$PROJECT_HOME/comum
+# Caminho completo para o diretório contendo os arquivos do ambiente de desenvolvimento
+DESENVOLVIMENTO_DIR=$PROJECT_HOME/desenvolvimento
+# Caminho completo para o diretório contendo os arquivos do ambiente de homologação
+HOMOLOGACAO_DIR=$PROJECT_HOME/homologacao
+
+########################################################
+# Configurações relativas ao ambiente de DESENVOLVIMENTO
+########################################################
+# Diretório onde será instalado o JBoss de desenvolvimento
+JBOSS_DESENVOLVIMENTO_DIR=${JBOSS_DESENVOLVIMENTO_DIR:-$DESENVOLVIMENTO_DIR}
+
+####################################################
+# Configurações relativas ao ambiente de HOMOLOGAÇÂO
+####################################################
+KEYCLOAK_DIR=$HOMOLOGACAO_DIR/keycloak
+MASTER_DIR=$HOMOLOGACAO_DIR/master
+SLAVE_DIR=$HOMOLOGACAO_DIR/slave
+GERA_KEYCLOAK=${GERA_KEYCLOAK:-true}
+GERA_MASTER=${GERA_MASTER:-true}
+GERA_SLAVES=${GERA_SLAVES:-true}
+KEYCLOAK=${KEYCLOAK:-10.229.44.55}
+MASTER=${MASTER:-10.229.44.55}
+SLAVES=${SLAVES:-"10.229.44.56 10.229.44.57"}

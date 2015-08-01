@@ -1,0 +1,10 @@
+--- jboss-deployment-structure.xml.original	2015-07-31 14:49:02.000000000 -0300
++++ jboss-deployment-structure.xml	2015-07-31 14:49:02.000000000 -0300
+@@ -32,6 +32,7 @@
+             <module name="org.apache.commons.logging" />
+             <module name="org.apache.xerces" />
+             <module name="org.jboss.ironjacamar.jdbcadapters" />
++            <module name="com.oracle" />
+         </dependencies>
+ 
+     </deployment>

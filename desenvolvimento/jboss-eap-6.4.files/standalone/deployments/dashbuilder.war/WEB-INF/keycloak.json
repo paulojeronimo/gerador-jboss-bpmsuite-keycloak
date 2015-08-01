@@ -1,0 +1,10 @@
+{
+  "realm": "app_realm",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi652quSSIz5kmjaK2UbNSBHZ8gzJN5FcDP18L2IPX34oW7wcDVyzwr3xBkb9mJ+NBMdgsX0ajnLomkPX3+6cUtAKS4x7Ql8mjlycJ4GWty8y2/xtvgD3wcJV2+B5H/lJfb+yCy9hQemxLBplXsMMWuuS+F896pZyO4Ws4WVgo2NSSLdmmM0URY50EYPWH1jQdwOGdbinvXOXCvRp7+Bu3/q5H8yO5xOT09pE5DaYVvU4hoRCD9Mia/J1OSwILo9y4wp5AGgZODFjHGoJK9o8FwJAZfRpHZfQy/LTUP2stbQiUkfq4l8Z1wTArlotNPdDbUdj7W32s+2aZrkzyBzv9QIDAQAB",
+  "auth-server-url": "http://localhost:8080/auth",
+  "ssl-required": "external",
+  "resource": "dashbuilder",
+  "credentials": {
+    "secret": "1f760a48-54d7-4b31-bbd2-949b32690385"
+  }
+}

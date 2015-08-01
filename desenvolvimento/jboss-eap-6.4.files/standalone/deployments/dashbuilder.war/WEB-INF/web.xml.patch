@@ -1,0 +1,16 @@
+--- web.xml.original	2015-07-31 16:05:43.000000000 -0300
++++ web.xml	2015-07-31 16:06:19.000000000 -0300
+@@ -79,11 +79,8 @@
+   </security-constraint>
+ 
+   <login-config>
+-    <auth-method>FORM</auth-method>
+-    <form-login-config>
+-      <form-login-page>/login.jsp</form-login-page>
+-      <form-error-page>/login_failed.jsp</form-error-page>
+-    </form-login-config>
++    <auth-method>KEYCLOAK</auth-method>
++    <realm-name>app_realm</realm-name>
+   </login-config>
+ 
+   <error-page>

@@ -1,0 +1,110 @@
+--- standalone.xml.original	2015-07-31 14:49:02.000000000 -0300
++++ standalone.xml	2015-07-31 14:49:02.000000000 -0300
+@@ -24,11 +24,17 @@
+       <extension module="org.jboss.as.webservices"/>
+       <extension module="org.jboss.as.weld"/>
+       <extension module="org.jboss.as.messaging"/>
++      <extension module="org.keycloak.keycloak-server-subsystem"/>
++      <extension module="org.keycloak.keycloak-adapter-subsystem"/>
+    </extensions>
+    <system-properties>
+       <property name="org.kie.example" value="true"/>
+       <property name="org.jbpm.designer.perspective" value="full"/>
+       <property name="designerdataobjects" value="false"/>
++      <property name="org.uberfire.nio.git.dir" value="${jboss.home.dir}/bin"/>
++      <property name="org.uberfire.nio.git.ssh.cert.dir" value="${jboss.home.dir}/bin"/>
++      <property name="org.uberfire.metadata.index.dir" value="${jboss.home.dir}/bin"/>
++      <property name="org.guvnor.m2repo.dir" value="${jboss.home.dir}/bin"/>
+    </system-properties>
+    <management>
+       <security-realms>
+@@ -116,6 +122,15 @@
+          <logger category="jacorb.config">
+             <level name="ERROR"/>
+          </logger>
++         <logger category="org.jboss.resteasy.resteasy_jaxrs.i18n">
++            <level name="ERROR"/>
++         </logger>
++         <logger category="org.hibernate.loader">
++            <level name="ERROR"/>
++         </logger>
++         <logger category="stdout">
++            <level name="ERROR"/>
++         </logger>
+          <root-logger>
+             <level name="INFO"/>
+             <handlers>
+@@ -140,10 +155,50 @@
+                   <password>sa</password>
+                </security>
+             </datasource>
++            <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true">
++               <connection-url>jdbc:oracle:thin:@localhost:1521:xe</connection-url>
++               <driver>oracle</driver>
++               <pool>
++                  <min-pool-size>5</min-pool-size>
++                  <max-pool-size>20</max-pool-size>
++                  <prefill>true</prefill>
++               </pool>
++               <security>
++                  <user-name>keycloak</user-name>
++                  <password>keycloak</password>
++               </security>
++               <validation>
++                  <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker"/>
++                  <stale-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleStaleConnectionChecker"/>
++                  <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleExceptionSorter"/>
++               </validation>
++            </datasource>
++            <datasource jndi-name="java:jboss/datasources/BPMS" pool-name="BPMS" enabled="true">
++               <connection-url>jdbc:oracle:thin:@localhost:1521:xe</connection-url>
++               <driver>oracle</driver>
++               <pool>
++                  <min-pool-size>5</min-pool-size>
++                  <max-pool-size>20</max-pool-size>
++                  <prefill>true</prefill>
++               </pool>
++               <security>
++                  <user-name>bpms</user-name>
++                  <password>bpms</password>
++               </security>
++               <validation>
++                  <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker"/>
++                  <stale-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleStaleConnectionChecker"/>
++                  <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleExceptionSorter"/>
++               </validation>
++            </datasource>
+             <drivers>
+                <driver name="h2" module="com.h2database.h2">
+                   <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                </driver>
++               <driver name="oracle" module="com.oracle">
++                  <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
++                  <xa-datasource-class>oracle.jdbc.xa.client.OracleXADataSource</xa-datasource-class>
++               </driver>
+             </drivers>
+          </datasources>
+       </subsystem>
+@@ -285,6 +340,11 @@
+                   <policy-module code="Delegating" flag="required"/>
+                </authorization>
+             </security-domain>
++            <security-domain name="keycloak">
++               <authentication>
++                  <login-module code="org.keycloak.adapters.jboss.KeycloakLoginModule" flag="required"/>
++               </authentication>
++            </security-domain>
+          </security-domains>
+       </subsystem>
+       <subsystem xmlns="urn:jboss:domain:threads:1.1"/>
+@@ -384,6 +444,10 @@
+             </jms-connection-factories>
+          </hornetq-server>
+       </subsystem>
++      <subsystem xmlns="urn:jboss:domain:keycloak-server:1.1">
++         <web-context>auth</web-context>
++      </subsystem>
++      <subsystem xmlns="urn:jboss:domain:keycloak:1.1"/>
+    </profile>
+    <interfaces>
+       <interface name="management">
