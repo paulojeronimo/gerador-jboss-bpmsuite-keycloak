@@ -1,10 +1,10 @@
 #!/bin/bash
 
-instala_jboss() {
-    local script="$JBOSS_INSTALA_DIR"/gerar
+gerar="$JBOSS_INSTALA_DIR"/gerar
 
-    echo -e "\nInstalando JBoss BPM Suite + Keycloak através do script \"$script\"\n"
-    BIN_DIR="$INSTALADORES_DIR" JBOSS_DESENVOLVIMENTO_DIR="$FERRAMENTAS_DIR" "$script" -a desenvolvimento
+instala_jboss() {
+    echo -e "\nInstalando JBoss BPM Suite + Keycloak através do script \"$gerar\"\n"
+    BIN_DIR="$INSTALADORES_DIR" JBOSS_DESENVOLVIMENTO_DIR="$FERRAMENTAS_DIR" "$gerar" -a desenvolvimento
     
     echo -e "\nRecriando o link $JBOSS_LINK para $JBOSS_DIR ..."
     [ -L $JBOSS_LINK ] && unlink $JBOSS_LINK
@@ -12,6 +12,8 @@ instala_jboss() {
 }
 
 remove_jboss() {
-    echo "Removendo JBoss BPM Suite + Keycloak ..."
     remove_aplicacao
+
+    echo -e "\nRemovendo arquivos gerados pelo uso do script \"$gerar\"\n"
+    BIN_DIR="$INSTALADORES_DIR" JBOSS_DESENVOLVIMENTO_DIR="$FERRAMENTAS_DIR" "$gerar" -a desenvolvimento -r -s
 }
