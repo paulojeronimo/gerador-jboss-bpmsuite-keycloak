@@ -5,7 +5,7 @@ export PROJECT_HOME=`cd "$(dirname "$0")"; pwd`
 
 CONFIG="$PROJECT_HOME"/gerar.config
 [ -f "$CONFIG" ] || CONFIG=${CONFIG}.exemplo
-source "$CONFIG"
+source "$CONFIG" || exit
 source "$COMUM_DIR/funcoes.sh"
 
 mostrar_cabecalho
