@@ -63,15 +63,15 @@ Copie o arquivo ``gerar.config.exemplo`` para ``gerar.config`` e edite-o fazendo
 
 Vá para o diretório desse projeto e execute:
 ```bash
-./gerar.sh
+./gerar
 ```
 
 Alternativamente, caso você deseje utilizar os binários disponíveis em um diretório específico (diferente de ``binarios``), você pode utilizar a variável ``BIN_DIR`` para informar a localização desse diretório. Dessa forma, a execução do script acima pode ser realizada assim (por exemplo):
 ```
-BIN_DIR=$INSTALADORES_DIR ./gerar.sh
+BIN_DIR=$INSTALADORES_DIR ./gerar
 ```
 
-Ao final da execução do script ``gerar.sh`` o JBoss BPM Suite estará disponível em ``./desenvolvimento/jboss-eap-6.4``.
+Ao final da execução do script ``gerar`` o JBoss BPM Suite estará disponível em ``./desenvolvimento/jboss-eap-6.4``.
 
 ### Geração utilizando o projeto javaee-ambiente
 
