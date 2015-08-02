@@ -49,7 +49,7 @@ Para a execução do JBoss BPM Suite gerado através desse projeto, é necessár
     * A instalação de um banco Oracle XE pode ser feita de forma rápida e simples pela utilização do projeto [docker-oracle-xe][docker-oracle-xe]. Obviamente, ele também pode ser instalado de forma nativa no teu sistema operacional (em Linux e Windows). Contudo, para o Mac OS X, não há binários de instalação e essa é a alternativa recomendada.
     * A criação dos bancos pode ser realizada através de scripts fornecidos neste projeto.
 
-## Geração e uso do ambiente de desenvolvimento
+## Geração, uso e remoção do ambiente de desenvolvimento
 
 No ambiente de desenvolvimento, uma única instância de JBoss é utilizada para a execução do JBoss BPM Suite. Ela é iniciada em modo standalone. Essa instalação pode ser realizada utilizando-se (ou não) o projeto [javaee-ambiente][javaee-ambiente].
 
@@ -134,6 +134,30 @@ unzip binarios/keycloak-examples-1.4.0.Final.zip
 cd keycloak-examples-1.4.0.Final/preconfigured-demo/
 mvn clean install
 mvn jboss-as:deploy
+```
+
+### Remoção do ambiente
+
+Remover o ambiente é, no contexto deste projeto, excluir arquivos e diretórios gerados. Isso inclui os seguintes:
+* jboss-eap-6.4.zip (arquivo)
+* jboss-eap-6.4.remove.bat (arquivo)
+* jboss-eap-6.4 (diretório)
+* jboss-bpmsuite-6.1.1-patch (diretório)
+* BZ-1234592-for-6.1.1 (diretório)
+
+#### Remoção sem o uso do projeto javaee-ambiente
+
+Execute:
+```
+./gerar -r -s
+```
+
+O parâmetro ``-r`` é para remover os arquivos. O parâmetro ``-s`` é para forçar o término do script antes do início da geração de quaisquer arquivos.
+
+#### Remoção utilizando o projeto javaee-ambiente
+
+```
+jboss_remover
 ```
 
 ## Geração e uso do ambiente de homologação
