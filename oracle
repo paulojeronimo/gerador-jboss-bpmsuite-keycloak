@@ -15,9 +15,11 @@ case $1 in
         cd "$DOCKER_ORACLE_XE_HOME"
         vagrant $1
         ;;
-    create-databases|drop-databases)
+    *)
+        f="$SQL_DIR"/$1.sql
+        [ -f "$f" ] || { echo "Arquivo \"$f\" não encontrado!"; exit 1; }
         $sql -S $SQL_USER/$SQL_PASSWORD@//$SQL_HOST:1521 <<EOF
-@"$SQL_DIR/$1.sql"
+@"$f"
 quit;
 EOF
         ;;
