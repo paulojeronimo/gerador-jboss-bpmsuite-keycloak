@@ -21,7 +21,7 @@ case $1 in
             linux*)
                 case $1 in
                     up) 
-                        if ! grep -q oracle-xe <(docker ps)
+                        if ! grep -q oracle-xe <(docker ps -a)
                         then
                             docker run --name oracle-xe -d -p 1521:1521 oracle-xe
                         else
