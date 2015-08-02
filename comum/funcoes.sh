@@ -51,9 +51,8 @@ tempo_consumido() {
 data_e_hora() {
     local n=${1:-`date +%s`}
     case $OSTYPE in
-        linux*) :;;
+        cygwin|linux*) date -d @$n +"%d/%m/%y-%H:%M:%S";;
         darwin*) date -r $n +"%d/%m/%y-%H:%M:%S";;
-        cygwin) :;;
     esac
 }
 
@@ -66,9 +65,7 @@ remover_gerados() {
         -o \( -type f -name "${JBOSS_EAP_DIR}.remove.bat" \) \
         -o \( -type d -name "$JBOSS_BPMSUITE_PATCH_DIR_1" \) \
         -o \( -type d -name "$JBOSS_BPMSUITE_PATCH_DIR_2" \) \
-        | xargs rm -rf
-
-    #find "$PROJECT_HOME" -type d -empty -delete
+        | xargs -I {} rm -rf "{}"
 }
 
 verificar_downloads() {
