@@ -26,6 +26,11 @@ do
             ;;
         -r|--remover) REMOVER_GERADOS=true;;
         -s|--sair) SAIR=true;;
+        -e|--exportar-keycloak-realm)
+            shift
+            [ "$1" ] && KEYCLOAK_REALM_NAME=$1
+            exportar_keycloak_realm
+            exit
     esac
     shift
 done

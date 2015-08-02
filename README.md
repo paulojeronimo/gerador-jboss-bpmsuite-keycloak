@@ -20,7 +20,7 @@ O script de geração dos binários para a execução integrada do JBoss BPM Sui
 ## Prós e contras
 
 O uso deste projeto adiciona ganhos significativos ao processo tradicional de instalação e configuração de servidores que é o de seguir um documento contendo um roteiro detalhado do que precisa ser realizado. Através desse projeto, espera-se que:
-1. A montagem de um ambiente seja realizada de forma rápida, automática e gerenciável.
+1. A montagem de um ambiente seja realizada de forma menos humana (errônea), rápida, automática e gerenciável.
 2. A evolução desse ambiente ocorra de forma sistemática e rastreável.
 
 Talvez possa ser levantada como desvantagem por usuários Windows, a necessidade de conhecimentos de [programação em (Bash)](http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html) e a instalação do [Cygwin][cygwin] para que os scripts deste projeto possam ser executados.
@@ -66,7 +66,7 @@ Vá para o diretório desse projeto e execute:
 ./gerar
 ```
 
-Alternativamente, caso você deseje utilizar os binários disponíveis em um diretório específico (diferente de ``binarios``), você pode utilizar a variável ``BIN_DIR`` para informar a localização desse diretório. Dessa forma, a execução do script acima pode ser realizada assim (por exemplo):
+Alternativamente, caso você deseje utilizar os binários disponíveis em um diretório específico (diferente de ``binarios``), você pode utilizar a variável ``BIN_DIR`` para informar a localização desse diretório. Dessa forma, a execução do script acima pode ser realizada da seguinte forma (por exemplo):
 ```
 BIN_DIR=$INSTALADORES_DIR ./gerar
 ```
@@ -81,6 +81,8 @@ JBOSS_INSTALA_DIR=$PROJETOS_DIR/gerador-jboss-bmpsuite-keycloak
 ```
 
 Execute a função ``jboss_instalar`` e observe que, ao final da execução dessa função, o JBoss BPM Suite estará gerado em ``$FERRAMENTAS_DIR/jboss-eap-6.4``.
+
+O arquivo [jboss.sh](jboss.sh) é o que realiza a integração deste projeto com o projeto javaee-ambiente. Altere o seu conteúdo se precisar fazer algum ajuste.
 
 ### Uso do ambiente
 
@@ -97,6 +99,47 @@ Após instalar o sqlcl, configure variável de ambiente ``SQLCL_HOME`` informand
 ```
 ./oracle create-databases
 ```
+
+#### Criação do realm do Keycloak (e sua exportação)
+
+Este passo é necessário para a criação do arquivo ``myapp-realm.json``. Esse arquivo é importado pelo Keycloak na inicialização do JBoss e isso é realizado quando é especificado o parâmetro ``-Dkeycloak.import=$JBOSS_HOME/myapp-realm.json``. Dessa forma o Keycloak importa (se já não existirem) as configurações para o realm ``myapp``.
+
+Neste projeto, o arquivo ``myapp-realm.json`` já existe e está disponível no diretório ``keycloak/myapp``. Sendo assim, os passos descritos aqui são apenas informativos e estão disponíveis para que possam ser realizados, novamente, caso se deseje recriar esse arquivo do zero quando o banco de dados do Keycloak ainda não contiver informações sobre o realm ``myapp``. No caso desse banco já conter tais configurações, o arquivo ``myapp-realm.json`` pode ser gerado por uma função do script ``gerar`` (executada nos passos descritos abaixo).
+
+Os passos realizados para a configuração do Keycloak através de sua interface de administrativa são os seguintes:
+1. Efetue o login na console administrativa do Keycloak (http://localhost:8080/auth/admin/)
+1. Crie o realm ``myapp`` (http://localhost:8080/auth/admin/master/console/#/create/realm)
+    * Para o campo ``Name`` em ``Create Realm`` informe o valor ``myapp``
+    * Clique no botão ``Create``
+1. Clique em ``Clients`` (http://localhost:8080/auth/admin/master/console/#/realms/myapp/clients)
+    * Clique em ``Create`` (http://localhost:8080/auth/admin/master/console/#/create/client/myapp)
+    * Para o campo ``Client ID`` informe o valor ``business-central``
+    * Para o campo ``Valid Redirect URIs`` informe o valor ``/business-central/*``
+    * Clique no botão ``Save``
+    * Altere o valor do campo ``Base URL`` para ``/business-central``
+    * Altere o valor do campo ``Admin URL`` para ``/business-central``
+    * Clique no botão ``Save``
+    * Vá para a aba ``Installation``
+        * Selecione ``Keycloak JSON`` para ``Format option``
+        * Clique em ``Download`` para salvar o arquivo ``keycloak.json`` no diretório ``desenvolvimento/jboss-eap-6.4.files/standalone/deployments/business-central/WEB-INF``
+1. Repita os passos anteriores para criar o cliente ``dashbuilder``
+1. Clique em ``Roles`` (http://localhost:8080/auth/admin/master/console/#/realms/myapp/roles)
+    * Adicione as seguintes roles: ``admin``, ``analyst``, ``developer``, ``manager`` e ``user``. Essas são as roles definidas nos arquivos ``web.xml`` das aplicações ``business-central`` e ``dashbuilder``
+1. Clique em ``Users`` (http://localhost:8080/auth/admin/master/console/#/realms/myapp/users)
+    * Clique em ``Add User`` (http://localhost:8080/auth/admin/master/console/#/create/user/myapp)
+    * Para o campo ``Username`` informe o valor ``user1``
+    * Clique no botão ``Save``
+    * Abra a aba ``Credentials`` e para os campos ``New password`` e ``Password confirmation`` informe o valor ``redhat@123``
+    * Altere o valor do campo ``Temporary`` para ``OFF``
+    * Clique em ``Role Mappings``
+        * Selecione todas as ``Available Roles`` e clique em ``Add selected``
+1. Pare a execução do JBoss
+1. Gere o arquivo ``myapp-realm.json`` através da execução do seguinte script:
+```
+./gerar --exportar-keycloak-realm
+```
+9. Aguarde o término da inicialização do JBoss. Quando isso ocorrer, pare-o
+10. Verifique a existência (ou atualização) do arquivo ``myapp-realm.json`` dentro do diretório ``keycloak/myapp``
 
 #### Destruição dos bancos de dados
 
@@ -117,9 +160,9 @@ Acesse a interface administrativa do JBoss em http://localhost:9990. O "usuário
 
 A interface de administração do Keycloak pode ser acessada através da URL http://localhost:8080/auth. Será solicitado um "usuário/senha" que, por padrão, é "admin/admin".
 
-O Business Central pode ser acesado através da URL http://localhost:8080/business-central.
+O Business Central pode ser acesado através da URL http://localhost:8080/business-central. Usuário/senha: user1/redhat@123
 
-O Dashbuilder pode ser acessado através da URL http://localhost:8080/dashbuilder.
+O Dashbuilder pode ser acessado através da URL http://localhost:8080/dashbuilder. Usuário/senha: user1/redhat@123
 
 #### Implantação e testes de exemplos do Keycloak
 
@@ -165,6 +208,15 @@ jboss_remover
 Em ambiente de homologação, o JBoss BPM Suite é instalado em modo domain. São utilizados três hosts, um master e dois slaves.
 
 TODO
+
+## Problemas atuais
+
+### 01) Erro ao tentar logar no business-central (http://localhost:8080/business-central)
+* Detalhamento:
+    * Enquanto é possível o logon no dashbuilder, seguindo o mesmo roteiro de configuração realizado para o business-central, esse último gera um erro que impossibilita o usuário se logar na aplicação (é exibido um erro 403).
+* Logs do servidor (a mesma saída, em dois momentos distintos de teste, regerando a instalação do JBoss e dos bancos de dados):
+    * [01/a.log](problemas/01/a.log)
+    * [01/b.log](problemas/01/b.log)
 
 [cygwin]: http://cygwin.com
 [javaee-ambiente]: http://github.com/paulojeronimo/javaee-ambiente

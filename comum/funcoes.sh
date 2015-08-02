@@ -61,11 +61,11 @@ remover_gerados() {
     local dir=${1:-$PROJECT_HOME}
     echo "Removendo arquivos e diretórios gerados ..."
 
-    find "$dir" \( -type d -name $JBOSS_EAP_DIR \) \
-        -o \( -type f -name ${JBOSS_EAP_DIR}.zip \) \
-        -o \( -type f -name ${JBOSS_EAP_DIR}.remove.bat \) \
-        -o \( -type d -name $JBOSS_BPMSUITE_PATCH_DIR_1 \) \
-        -o \( -type d -name $JBOSS_BPMSUITE_PATCH_DIR_2 \) \
+    find "$dir" \( -type d -name "$JBOSS_EAP_DIR" \) \
+        -o \( -type f -name "${JBOSS_EAP_DIR}.zip" \) \
+        -o \( -type f -name "${JBOSS_EAP_DIR}.remove.bat" \) \
+        -o \( -type d -name "$JBOSS_BPMSUITE_PATCH_DIR_1" \) \
+        -o \( -type d -name "$JBOSS_BPMSUITE_PATCH_DIR_2" \) \
         | xargs rm -rf
 
     #find "$PROJECT_HOME" -type d -empty -delete
@@ -186,11 +186,6 @@ instalar_modulo() {
     local module=$2
     local binario=$3
 
-    #log "Instalando o arquivo $module" true
-    #cd "$COMUM_DIR/$JBOSS_A_CONFIGURAR_DIR"
-    #cp_with_parents $module "$dir/$JBOSS_EAP_DIR"
-    #cd - &> /dev/null
-
     log "Instalando o arquivo $binario" true
     cp "$BIN_DIR"/$binario "$dir/$JBOSS_EAP_DIR"/`dirname $module`
 }
@@ -275,8 +270,8 @@ EOF
 
 aplicar_jboss_bpmsuite_patch_2() {
     local dir=$1
-    local patch_dir=$dir/$JBOSS_BPMSUITE_PATCH_DIR_2
-    local jboss_patch_dir=$dir/$JBOSS_EAP_DIR/standalone/deployments/business-central.war/WEB-INF/lib
+    local patch_dir="$dir/$JBOSS_BPMSUITE_PATCH_DIR_2"
+    local jboss_patch_dir="$dir/$JBOSS_EAP_DIR"/standalone/deployments/business-central.war/WEB-INF/lib
 
     log "Aplicando o patch \"$JBOSS_BPMSUITE_PATCH_2\" no JBoss BPM Suite" true
 
@@ -321,10 +316,10 @@ remover_modo() {
     log "Removendo arquivos do modo $modo" true
 
     log "Removendo o diretório \"$dir/$JBOSS_EAP_DIR/$modo\""
-    rm -rf "$dir"/$JBOSS_EAP_DIR/$modo
+    rm -rf "$dir/$JBOSS_EAP_DIR"/$modo
 
     log "Removendo os binários $modo* de \"$dir/$JBOSS_EAP_DIR/bin\""
-    rm -f "$dir"/$JBOSS_EAP_DIR/bin/${modo}*
+    rm -f "$dir/$JBOSS_EAP_DIR"/bin/${modo}*
 }
 
 remover_modo_standalone() {
@@ -345,8 +340,8 @@ compactar_jboss_eap() {
     log "Compactando o JBoss EAP em "$JBOSS_EAP_DIR".zip" true
 
     cd "$dir"
-    rm -f "$JBOSS_EAP_DIR".zip
-    zip -r "$JBOSS_EAP_DIR".zip "$JBOSS_EAP_DIR" > /dev/null
+    rm -f "$JBOSS_EAP_DIR.zip"
+    zip -r "$JBOSS_EAP_DIR.zip" "$JBOSS_EAP_DIR" > /dev/null
     cd - &> /dev/null
 }
 
@@ -369,6 +364,27 @@ salvar_standalone_xml() {
     local dir=$1
     local versao=$2
 
-    cp  "$dir"/"$JBOSS_EAP_DIR"/standalone/configuration/standalone.xml \
-        "$dir"/"$JBOSS_EAP_DIR"/standalone/configuration/standalone.xml.$versao
+    cp  "$dir/$JBOSS_EAP_DIR"/standalone/configuration/standalone.xml \
+        "$dir/$JBOSS_EAP_DIR"/standalone/configuration/standalone.xml.$versao
+}
+
+exportar_keycloak_realm() {
+    local dir="$PROJECT_HOME"/keycloak/$KEYCLOAK_REALM_NAME
+
+    rm -rf "$dir"
+    mkdir -p "$dir"
+
+    $JBOSS_HOME/bin/standalone.sh \
+        -Dkeycloak.migration.action=export \
+        -Dkeycloak.migration.provider=dir \
+        -Dkeycloak.migration.dir="$dir" \
+        -Dkeycloak.migration.realmName=$KEYCLOAK_REALM_NAME \
+        -Dkeycloak.migration.usersExportStrategy=REALM_FILE
+}
+
+copiar_keycloak_realm() {
+    local dir=$1
+    local realm_dir="$PROJECT_HOME"/keycloak/$KEYCLOAK_REALM_NAME
+
+    cp "$realm_dir"/$KEYCLOAK_REALM_NAME-realm.json "$dir/$JBOSS_EAP_DIR"
 }

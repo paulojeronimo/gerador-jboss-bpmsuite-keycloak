@@ -1,10 +1,10 @@
 {
-  "realm": "app_realm",
-  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi652quSSIz5kmjaK2UbNSBHZ8gzJN5FcDP18L2IPX34oW7wcDVyzwr3xBkb9mJ+NBMdgsX0ajnLomkPX3+6cUtAKS4x7Ql8mjlycJ4GWty8y2/xtvgD3wcJV2+B5H/lJfb+yCy9hQemxLBplXsMMWuuS+F896pZyO4Ws4WVgo2NSSLdmmM0URY50EYPWH1jQdwOGdbinvXOXCvRp7+Bu3/q5H8yO5xOT09pE5DaYVvU4hoRCD9Mia/J1OSwILo9y4wp5AGgZODFjHGoJK9o8FwJAZfRpHZfQy/LTUP2stbQiUkfq4l8Z1wTArlotNPdDbUdj7W32s+2aZrkzyBzv9QIDAQAB",
+  "realm": "myapp",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAypQA519jv9FKADiaHrveXH1kiv5GOqVmrNBTpW6rmP4aL7lKZUMbwWey8gPGxW4Yub8oJyVcyN7EHYRGCs2ghiaSraFOe/40YeOXy2Z1rSowmOWA3vGOY68FfSt4XaWVBuMI+1t4H6NCRFSEvtsNJr2YIjhz5SjO6Yywv90ES7DwwleD2InNUYeSBK0yyTaru4aV01U/7DkpsyFtMPIsA9JAsTpXSHIwUQT1dLat5gpR6sglbQCa+SjtFR4GmO2QBsUf+LSrahAnROH/JFEhLP+HE2bU/psBUeu5xRn3ttPZzK6flrfqgaFTLHMSXnfDg0jUhE6P9A3RPQQJjwl9+wIDAQAB",
   "auth-server-url": "http://localhost:8080/auth",
   "ssl-required": "external",
   "resource": "business-central",
   "credentials": {
-    "secret": "410ddaa7-c71d-42e8-8092-49704151a8fc"
+    "secret": "28c4a911-2f21-44cc-bc8d-fc8ab1761027"
   }
 }

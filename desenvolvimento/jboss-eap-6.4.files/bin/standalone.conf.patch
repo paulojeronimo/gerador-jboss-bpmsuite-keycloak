@@ -1,0 +1,10 @@
+--- standalone.conf.original	2015-08-02 10:35:04.000000000 -0300
++++ standalone.conf	2015-08-02 10:52:25.000000000 -0300
+@@ -50,6 +50,7 @@
+    JAVA_OPTS="-Xms1303m -Xmx1303m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
+    JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
+    JAVA_OPTS="$JAVA_OPTS -Djboss.modules.policy-permissions=true"
++   JAVA_OPTS="$JAVA_OPTS -Dkeycloak.import=\"$JBOSS_HOME/myapp-realm.json\""
+ else
+    echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
+ fi

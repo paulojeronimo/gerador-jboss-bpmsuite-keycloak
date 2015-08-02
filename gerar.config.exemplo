@@ -68,3 +68,8 @@ GERA_SLAVES=${GERA_SLAVES:-true}
 KEYCLOAK=${KEYCLOAK:-10.229.44.55}
 MASTER=${MASTER:-10.229.44.55}
 SLAVES=${SLAVES:-"10.229.44.56 10.229.44.57"}
+
+##########################################################
+# REALM a ser importado pelo Keycloak em sua inicialização
+##########################################################
+KEYCLOAK_REALM_NAME=myapp

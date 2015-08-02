@@ -23,6 +23,7 @@ gerar_desenvolvimento() {
     remover_modo_domain "$JBOSS_DESENVOLVIMENTO_DIR"
     compactar_jboss_eap "$JBOSS_DESENVOLVIMENTO_DIR"
     gerar_jboss_eap_remove_bat "$JBOSS_DESENVOLVIMENTO_DIR"
+    copiar_keycloak_realm "$JBOSS_DESENVOLVIMENTO_DIR"
 
     marca_fim && log "Geração finalizada em `data_e_hora $dt_hr_fim`. Tempo: `tempo_consumido`" true
 }
