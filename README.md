@@ -107,6 +107,7 @@ Este passo é necessário para a criação do arquivo ``myapp-realm.json``. Esse
 Neste projeto, o arquivo ``myapp-realm.json`` já existe e está disponível no diretório ``keycloak/myapp``. Sendo assim, os passos descritos aqui são apenas informativos e estão disponíveis para que possam ser realizados, novamente, caso se deseje recriar esse arquivo do zero quando o banco de dados do Keycloak ainda não contiver informações sobre o realm ``myapp``. No caso desse banco já conter tais configurações, o arquivo ``myapp-realm.json`` pode ser gerado por uma função do script ``gerar`` (executada nos passos descritos abaixo).
 
 Os passos realizados para a configuração do Keycloak através de sua interface de administrativa são os seguintes:
+
 1. Efetue o login na console administrativa do Keycloak (http://localhost:8080/auth/admin/)
 1. Crie o realm ``myapp`` (http://localhost:8080/auth/admin/master/console/#/create/realm)
     * Para o campo ``Name`` em ``Create Realm`` informe o valor ``myapp``
