@@ -2,7 +2,7 @@
 
 ## Introdução
 
-Este projeto automatiza a geração de binários para execução integrada do [JBoss BPM Suite][jboss-bpmsuite] e o do [Keycloak][keycloak].
+Este projeto automatiza a geração de binários para execução integrada do [JBoss BPM Suite][jboss-bpmsuite] e do [Keycloak][keycloak].
 
 É utilizado, na configuração dos datasources utilizados por esses produtos, o banco de dados Oracle (pode ser o [Oracle Database 11g Express Edition][oracle-xe]).
 
