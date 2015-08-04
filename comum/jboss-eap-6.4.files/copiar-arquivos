@@ -9,6 +9,9 @@ echo "Copiando arquivos \"$1\" para \"$PATCHES_DIR\" ..."
 for f in $(find . -type f -name "$1")
 do
     echo "Copiando $f ..."
-    rsync -R $f "$PATCHES_DIR"
+    case $OSTYPE in
+        darwin*) rsync -R "$f" "$PATCHES_DIR";;
+        linux*|cygwin) cp --parents "$f" "$PATCHES_DIR";;
+    esac
 done
 
