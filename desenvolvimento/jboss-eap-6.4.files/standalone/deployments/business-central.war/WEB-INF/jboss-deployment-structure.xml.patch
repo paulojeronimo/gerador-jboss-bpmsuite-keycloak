@@ -1,0 +1,10 @@
+--- jboss-deployment-structure.xml.original	2015-08-04 09:35:52.125679950 -0300
++++ jboss-deployment-structure.xml	2015-08-04 09:36:12.763532990 -0300
+@@ -20,6 +20,7 @@
+ <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
+ <deployment>
+ 	 <dependencies>
++         <module name="org.picketlink" />
+ 		 <module name="org.jboss.netty" />
+          <!-- EAP alignement -->
+          <module name="javax.activation.api" />

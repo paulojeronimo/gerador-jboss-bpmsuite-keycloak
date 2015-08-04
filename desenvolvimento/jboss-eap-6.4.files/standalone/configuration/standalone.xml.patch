@@ -1,5 +1,5 @@
---- standalone.xml.original	2015-07-31 14:49:02.000000000 -0300
-+++ standalone.xml	2015-07-31 14:49:02.000000000 -0300
+--- standalone.xml.original	2015-08-04 09:31:06.741712142 -0300
++++ standalone.xml	2015-08-04 09:33:30.231690364 -0300
 @@ -24,11 +24,17 @@
        <extension module="org.jboss.as.webservices"/>
        <extension module="org.jboss.as.weld"/>
@@ -85,7 +85,7 @@
              </drivers>
           </datasources>
        </subsystem>
-@@ -285,6 +340,11 @@
+@@ -285,6 +340,19 @@
                    <policy-module code="Delegating" flag="required"/>
                 </authorization>
              </security-domain>
@@ -94,10 +94,18 @@
 +                  <login-module code="org.keycloak.adapters.jboss.KeycloakLoginModule" flag="required"/>
 +               </authentication>
 +            </security-domain>
++            <security-domain name="sp" cache-type="default">
++               <authentication>
++                  <login-module code="RealmDirect" flag="sufficient">
++                     <module-option name="password-stacking" value="useFirstPass"/>
++                  </login-module>
++                  <login-module code="org.picketlink.identity.federation.bindings.jboss.auth.SAML2LoginModule" flag="required"/>
++               </authentication>
++            </security-domain>
           </security-domains>
        </subsystem>
        <subsystem xmlns="urn:jboss:domain:threads:1.1"/>
-@@ -384,6 +444,10 @@
+@@ -384,6 +452,10 @@
              </jms-connection-factories>
           </hornetq-server>
        </subsystem>

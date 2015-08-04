@@ -1,0 +1,14 @@
+--- jboss-web.xml.original	2015-08-04 09:38:14.582665527 -0300
++++ jboss-web.xml	2015-08-04 09:38:24.020598320 -0300
+@@ -5,7 +5,8 @@
+     "http://www.jboss.org/j2ee/dtd/jboss-web_4_2.dtd">
+ 
+ <jboss-web>
+-
+-  <security-domain>other</security-domain>
+-
++   <security-domain>sp</security-domain>
++   <valve>
++      <class-name>org.picketlink.identity.federation.bindings.tomcat.sp.ServiceProviderAuthenticator</class-name>
++   </valve>
+ </jboss-web>
