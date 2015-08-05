@@ -173,7 +173,7 @@
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "secret" : "28c4a911-2f21-44cc-bc8d-fc8ab1761027",
-    "redirectUris" : [ "/business-central/*" ],
+    "redirectUris" : [ "/business-central/*", "/business-central/kie-wb.html" ],
     "webOrigins" : [ ],
     "notBefore" : 0,
     "bearerOnly" : false,

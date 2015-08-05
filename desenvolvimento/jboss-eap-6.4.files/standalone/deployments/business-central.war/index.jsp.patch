@@ -1,0 +1,10 @@
+--- index.jsp.original	2015-08-05 14:01:34.574226524 -0300
++++ index.jsp	2015-08-05 14:01:59.409060939 -0300
+@@ -1,5 +1,5 @@
+ <%
+   String queryString = request.getQueryString();
+-  String redirectURL = request.getContextPath()  +"/login?"+(queryString==null?"":queryString);
++  String redirectURL = request.getContextPath()  +"/login";
+   response.sendRedirect(redirectURL);
+ %>
+\ No newline at end of file

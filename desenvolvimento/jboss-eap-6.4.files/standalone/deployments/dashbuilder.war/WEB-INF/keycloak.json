@@ -6,5 +6,6 @@
   "resource": "dashbuilder",
   "credentials": {
     "secret": "96059d56-8283-48e6-9a85-e37a31e6fdb6"
-  }
+  },
+  "principal-attribute": "preferred_username"
 }
