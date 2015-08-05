@@ -1,0 +1,20 @@
+#!/bin/bash
+set -x
+
+PATCHES_DIR=${PATCHES_DIR:-~/Desktop/gerador-jboss-bpmsuite-keycloak/desenvolvimento/jboss-eap-6.4.files}
+JBOSS_DIR="$JBOSS_HOME"/"${PWD##$PATCHES_DIR/}"
+
+f=$1.original
+if [ ! -f "$JBOSS_DIR"/$f ]
+then
+    f=$1
+    echo "O arquivo \"$f.original\" não existe em \"$JBOSS_DIR\". Tentando \"$f\" ..."
+    if [ ! -f "$JBOSS_DIR"/$f ]
+    then
+        echo "O arquivo \"$f\" também não existe no mesmo diretório!. Abortando ..."
+        exit
+    fi
+fi
+
+echo "Copiando o arquivo \"$f\" a partir de \"$JBOSS_DIR\" ..."
+cp "$JBOSS_DIR"/$f .
