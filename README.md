@@ -213,6 +213,7 @@ TODO
 ## Problemas atuais
 
 ### 01) Erro ao tentar logar no business-central (http://localhost:8080/business-central)
+* Status: resolvido no [commit 9e627d35b721f613e0d745e1cc5e213944d04905](https://github.com/paulojeronimo/gerador-jboss-bpmsuite-keycloak/commit/9e627d35b721f613e0d745e1cc5e213944d04905)
 * Detalhamento:
     * Enquanto é possível o logon no dashbuilder, seguindo o mesmo roteiro de configuração realizado para o business-central, esse último gera um erro que impossibilita o usuário se logar na aplicação (é exibido um erro 403).
 * Logs do servidor (a mesma saída, em dois momentos distintos de teste, regerando a instalação do JBoss e dos bancos de dados):
