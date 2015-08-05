@@ -371,7 +371,7 @@ exportar_keycloak_realm() {
     rm -rf "$dir"
     mkdir -p "$dir"
 
-    $JBOSS_HOME/bin/standalone.sh \
+    "$JBOSS_HOME"/bin/standalone.sh \
         -Dkeycloak.migration.action=export \
         -Dkeycloak.migration.provider=dir \
         -Dkeycloak.migration.dir="$dir" \
