@@ -198,10 +198,10 @@ copiar_e_substituir() {
     local origem=$1
     local destino=${2:-$origem}
 
-    copiar_arquivos_nao_patch() {
+    copiar_arquivos_de() {
         local d=$1
     
-        log "Copiando arquivos não finalizados com .patch em \"$d\" ..."
+        log "Arquivos em \"$d\""
         cd "$d"
         for f in $(find . -type f ! -name '*.patch')
         do
@@ -210,25 +210,32 @@ copiar_e_substituir() {
         cd - &> /dev/null
     }
 
-    log "Copiando e substituindo os arquivos do JBoss pelos configurados em $JBOSS_A_CONFIGURAR_DIR" true
-    copiar_arquivos_nao_patch "$COMUM_DIR"/$JBOSS_A_CONFIGURAR_DIR
-    copiar_arquivos_nao_patch "$origem"/$JBOSS_A_CONFIGURAR_DIR
+    log "Copiando e substituindo arquivos (exceto *.patch) para o JBoss" true
+    copiar_arquivos_de "$COMUM_DIR"/$JBOSS_A_CONFIGURAR_DIR
+    copiar_arquivos_de "$origem"/$JBOSS_A_CONFIGURAR_DIR
 }
 
 aplicar_patches() {
     local origem=$1
     local destino=${2:-$origem}
-    
-    log "Aplicando os patches existentes em $JBOSS_A_CONFIGURAR_DIR nos arquivos do JBoss" true
+   
+    aplicar_patches_de() {
+        local d=$1
 
-    cd "$origem"/$JBOSS_A_CONFIGURAR_DIR
-    for f in $(find . -type f -name '*.patch')
-    do
-        cp "$destino/$JBOSS_EAP_DIR"/${f%.patch} "$destino/$JBOSS_EAP_DIR"/${f%.patch}.original
-        patch "$destino/$JBOSS_EAP_DIR"/${f%.patch} $f
-        cp "$destino/$JBOSS_EAP_DIR"/${f%.patch} "$destino/$JBOSS_EAP_DIR"/${f%.patch}.final
-    done
-    cd - &> /dev/null
+        log "Patches em \"$d\""
+        cd "$d"
+        for f in $(find . -type f -name '*.patch')
+        do
+            cp "$destino/$JBOSS_EAP_DIR"/${f%.patch} "$destino/$JBOSS_EAP_DIR"/${f%.patch}.original
+            patch "$destino/$JBOSS_EAP_DIR"/${f%.patch} $f
+            cp "$destino/$JBOSS_EAP_DIR"/${f%.patch} "$destino/$JBOSS_EAP_DIR"/${f%.patch}.final
+        done
+        cd - &> /dev/null
+    }
+ 
+    log "Aplicando patches (*.patch) nos arquivos do JBoss" true
+    aplicar_patches_de "$COMUM_DIR"/$JBOSS_A_CONFIGURAR_DIR
+    aplicar_patches_de "$origem"/$JBOSS_A_CONFIGURAR_DIR
 }
 
 aplicar_jboss_bpmsuite_patch_1() {
@@ -310,12 +317,12 @@ remover_modo() {
     local dir=$1
     local modo=$2
 
-    log "Removendo arquivos do modo $modo" true
+    log "Removendo diretórios e arquivos relativos ao modo $modo" true
 
-    log "Removendo o diretório \"$dir/$JBOSS_EAP_DIR/$modo\""
+    log "Diretório \"$dir/$JBOSS_EAP_DIR/$modo\""
     rm -rf "$dir/$JBOSS_EAP_DIR"/$modo
 
-    log "Removendo os binários $modo* de \"$dir/$JBOSS_EAP_DIR/bin\""
+    log "Arquivos $modo* de \"$dir/$JBOSS_EAP_DIR/bin\""
     rm -f "$dir/$JBOSS_EAP_DIR"/bin/${modo}*
 }
 
