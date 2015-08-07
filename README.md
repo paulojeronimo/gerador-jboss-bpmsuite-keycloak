@@ -20,6 +20,7 @@ O script de geração dos binários para a execução integrada do JBoss BPM Sui
 ## Prós e contras
 
 O uso deste projeto adiciona ganhos significativos ao processo tradicional de instalação e configuração de servidores que é o de seguir um documento contendo um roteiro detalhado do que precisa ser realizado. Através desse projeto, espera-se que:
+
 1. A montagem de um ambiente seja realizada de forma menos humana (errônea), rápida, automática e gerenciável.
 2. A evolução desse ambiente ocorra de forma sistemática e rastreável.
 
