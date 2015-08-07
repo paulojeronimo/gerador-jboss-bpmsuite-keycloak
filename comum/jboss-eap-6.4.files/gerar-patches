@@ -7,9 +7,23 @@ cd "$BASEDIR"
 echo "Gerando os patches em \"$JBOSS_HOME\" ..."
 for f in $(find . -type f -name '*.original')
 do
+    f=${f%.original}
     pushd $(dirname $f) &> /dev/null
-    echo "Gerando ${f%.original}.patch ..."
+    echo -n "Gerando $f.patch ... "
     f=$(basename $f)
-    diff -uwNr $f ${f%.original} > ${f%.original}.patch
+    if [ -f $f.final ]
+    then
+        if [ $f -nt $f.final ]
+        then
+            diff -uwNr $f.original $f > $f.patch
+            echo "Gerado!"
+        else
+            echo "Ignorado!"
+        fi
+        popd &> /dev/null
+        continue
+    fi
+    diff -uwNr $f.original $f > $f.patch
+    echo "Gerado!"
     popd &> /dev/null
 done

@@ -1,1 +1,7 @@
-export PATCHES_DIR="$HOME/My Projects/github.com/gerador-jboss-bpmsuite-keycloak/desenvolvimento/jboss-eap-6.4.files"
+export GERADOR_JBOSS_BPMSUITE_KEYCLOAK="$HOME/My Projects/github.com/gerador-jboss-bpmsuite-keycloak"
+export COMUM_PATCHES_DIR="$GERADOR_JBOSS_BPMSUITE_KEYCLOAK/comum/jboss-eap-6.4.files"
+export PATCHES_DIR="$GERADOR_JBOSS_BPMSUITE_KEYCLOAK/desenvolvimento/jboss-eap-6.4.files"
+
+gerador() {
+    cd "$GERADOR_JBOSS_BPMSUITE_KEYCLOAK"
+}

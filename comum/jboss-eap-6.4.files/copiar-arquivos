@@ -1,17 +1,24 @@
 #!/bin/bash
 
 BASEDIR=`cd "$(dirname "$0")"; pwd`
+COMUM_PATCHES_DIR=${COMUM_PATCHES_DIR:-~/Desktop/gerador-jboss-bpmsuite-keycloak/comum/jboss-eap-6.4.files}
 PATCHES_DIR=${PATCHES_DIR:-~/Desktop/gerador-jboss-bpmsuite-keycloak/desenvolvimento/jboss-eap-6.4.files}
+DESTINO="$PATCHES_DIR"
 
 cd "$BASEDIR"
 
-echo "Copiando arquivos \"$1\" para \"$PATCHES_DIR\" ..."
+echo "Copiando arquivos \"$1\" para \$COMUM_PATCHES_DIR ou \$PATCHES_DIR ..."
 for f in $(find . -type f -name "$1")
 do
-    echo "Copiando $f ..."
+    if [ -f "$COMUM_PATCHES_DIR"/$f ]
+    then
+        DESTINO="$COMUM_PATCHES_DIR"
+    fi
+
+    echo "Copiando $f ... para \"$DESTINO\" ..."
     case $OSTYPE in
-        darwin*) rsync -R "$f" "$PATCHES_DIR";;
-        linux*|cygwin) cp --parents "$f" "$PATCHES_DIR";;
+        darwin*) rsync -R "$f" "$DESTINO";;
+        linux*|cygwin) cp --parents "$f" "$DESTINO";;
     esac
 done
 
