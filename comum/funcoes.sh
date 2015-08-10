@@ -221,14 +221,21 @@ aplicar_patches() {
    
     aplicar_patches_de() {
         local d=$1
+        local f2p
 
         log "Patches em \"$d\""
         cd "$d"
         for f in $(find . -type f -name '*.patch')
         do
-            cp "$destino/$JBOSS_EAP_DIR"/${f%.patch} "$destino/$JBOSS_EAP_DIR"/${f%.patch}.original
-            patch "$destino/$JBOSS_EAP_DIR"/${f%.patch} $f
-            cp "$destino/$JBOSS_EAP_DIR"/${f%.patch} "$destino/$JBOSS_EAP_DIR"/${f%.patch}.final
+            f2p="$destino"/$JBOSS_EAP_DIR/${f%.patch}
+            if [ -f "$f2p" ]
+            then
+                cp "$f2p" "$f2p.original"
+                patch "$f2p" $f
+                cp "$f2p" "$f2p.final"
+            else
+                echo "Ignorando patch para \"${f%.patch}\""
+            fi
         done
         cd - &> /dev/null
     }
