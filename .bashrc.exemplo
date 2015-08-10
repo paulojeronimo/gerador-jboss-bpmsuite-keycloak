@@ -1,0 +1,38 @@
+#!/bin/bash
+
+este_dir() {
+    echo -n $(cd "$(dirname "$(caller | cut -d ' ' -f 2-)")"; pwd)
+}
+
+PROJECT_HOME=`este_dir`
+
+source "$PROJECT_HOME/gerar.config" &> /dev/null || {
+    source "$PROJECT_HOME/gerar.config.exemplo" || exit 1
+}
+
+export COMUM_PATCHES_DIR=$COMUM_DIR/$JBOSS_A_CONFIGURAR_DIR
+export PATCHES_DIR=$DESENVOLVIMENTO_DIR/$JBOSS_A_CONFIGURAR_DIR
+
+# vai para o diretório o gerador
+gerador() {
+    cd "$PROJECT_HOME"
+}
+
+# ajusta as variáveis de ambiente JBOSS_HOME e PATCHES_DIR
+ajustar_variaveis() {
+    local dir=${PWD##$PROJECT_HOME/}
+
+    case $dir in
+        desenvolvimento|homologacao/keycloak|homologacao/master-slave)
+            export PATCHES_DIR="$PROJECT_HOME"/$dir/$JBOSS_A_CONFIGURAR_DIR
+            export JBOSS_HOME="$PROJECT_HOME"/$dir/$JBOSS_EAP_DIR
+            export PATH="$JBOSS_HOME"/bin:$PATH
+            ;;
+        *)
+            echo "\"$PWD\" não é um diretório válido para a execução desta função!"
+            ;;
+    esac
+}
+
+f="$HOMOLOGACAO_DIR"/.bashrc
+[ -f "$f" ] && source "$f" || source "$f.exemplo"

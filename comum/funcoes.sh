@@ -361,6 +361,11 @@ gerar_jboss_eap_remove_bat() {
     local file=${JBOSS_EAP_DIR}.remove.bat
 
     log "Gerando o arquivo $file" true
+    if [ "$PLATAFORMA_ALVO" != "Windows" ]
+    then
+        log "Ignorando a execução dessa função para a plataforma \"$PLATAFORMA_ALVO\""
+        return
+    fi
 
     cd "$dir"
     cat > $file <<EOF

@@ -60,16 +60,16 @@ JBOSS_DESENVOLVIMENTO_DIR=${JBOSS_DESENVOLVIMENTO_DIR:-$DESENVOLVIMENTO_DIR}
 # Configurações relativas ao ambiente de HOMOLOGAÇÂO
 ####################################################
 KEYCLOAK_DIR=$HOMOLOGACAO_DIR/keycloak
-MASTER_DIR=$HOMOLOGACAO_DIR/master
-SLAVE_DIR=$HOMOLOGACAO_DIR/slave
+MASTER_SLAVE_DIR=$HOMOLOGACAO_DIR/master-slave
 GERA_KEYCLOAK=${GERA_KEYCLOAK:-true}
-GERA_MASTER=${GERA_MASTER:-true}
-GERA_SLAVES=${GERA_SLAVES:-true}
-KEYCLOAK=${KEYCLOAK:-10.229.44.55}
-MASTER=${MASTER:-10.229.44.55}
-SLAVES=${SLAVES:-"10.229.44.56 10.229.44.57"}
+GERA_MASTER_SLAVE=${GERA_MASTER_SLAVE:-true}
 
 ##########################################################
 # REALM a ser importado pelo Keycloak em sua inicialização
 ##########################################################
 KEYCLOAK_REALM_NAME=myapp
+
+############################
+# Plataforma alvo da geração
+############################
+PLATAFORMA_ALVO=${PLATAFORMA_ALVO:-Linux}

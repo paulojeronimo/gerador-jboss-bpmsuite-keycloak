@@ -19,7 +19,7 @@ do
             shift
             case "$1" in
                 desenvolvimento|homologacao) :;;
-                *) echo "O amibente informado \"$1\" é inválido!"; exit;;
+                *) echo "O ambiente informado \"$1\" é inválido!"; exit;;
             esac
             export AMBIENTE=$1
             echo "Ambiente alterado (via linha de comando) para \"$AMBIENTE\""
@@ -31,6 +31,15 @@ do
             [ "$1" ] && KEYCLOAK_REALM_NAME=$1
             exportar_keycloak_realm
             exit
+            ;;
+        -p|--plataforma-alvo)
+            shift
+            case "$1" in
+                Linux|Windows|OSX) :;;
+                *) echo "A plataforma alvo \"$1\" é inválida! Suas opções são: Linux, Windows ou OSX!"; exit;;
+            esac
+            PLATAFORMA_ALVO=$1
+            ;;
     esac
     shift
 done
