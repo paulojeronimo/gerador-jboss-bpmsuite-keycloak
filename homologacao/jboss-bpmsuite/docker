@@ -1,0 +1,98 @@
+#!/bin/bash
+
+BASEDIR=`cd "$(dirname "$0")"; pwd`
+source "$BASEDIR"/../funcoes.sh
+
+valida() {
+    [ "$1" ] || { >&2 echo "Contêiner não especificado!"; return 1; }
+    case "$1" in
+        dc|hc[1-2]):;;
+        *) >&2 echo "Contêiner inválido: $1"; return 1;;
+    esac
+}
+
+valida_e_executa() {
+    local conteiner=$1; shift
+    local cmd=$@
+
+    valida $conteiner || exit $?
+    exec_cmd "$cmd"
+}
+
+_run() {
+    local name=$1
+    local port
+
+    case $1 in
+        dc) port=10090;;
+        hc1) port=8180;;
+        hc2) port=8280;;
+    esac
+
+    if ! grep -q $name <(docker ps -a)
+    then
+        case $name in
+            dc)
+                exec_cmd docker run --name $name -it -p $port:9990 --link oracle-xe:oracle -d jboss-bpmsuite --host-config host-master.xml -b 0.0.0.0 -bmanagement=0.0.0.0
+                ;;
+            hc*)
+                exec_cmd docker run --name $name -it -p $port:8080 --link dc:domain-controller -d jboss-bpmsuite --host-config host-slave.xml -b 0.0.0.0
+                ;;
+        esac
+    else
+        exec_cmd docker start $name
+    fi
+    exec_cmd docker logs -f $name
+}
+
+case $1 in
+    setup-port-forwarding) 
+        for port in 8180 8280 10090
+        do
+            exec_cmd "VBoxManage controlvm "boot2docker-vm" natpf1 'jboss-bpmsuite-$port,tcp,,$port,,$port'"
+        done
+        ;;
+    delete-port-forwarding) 
+        for port in 8180 8280 10090
+        do
+            exec_cmd "VBoxManage controlvm "boot2docker-vm" natpf1 delete jboss-bpmsuite-$port"
+        done
+        ;;
+    build)
+        cd "$BASEDIR"
+        shift
+        [ "$1" ] && [ "$1" = "--gerar" ] && exec_cmd ./gerar
+        rm -rf jboss-eap-6.4 BZ-1234592-for-6.1.1 jboss-bpmsuite-6.1.1-patch
+        exec_cmd docker build --rm -t jboss-bpmsuite .
+        ;;
+    run) 
+        shift
+        valida_e_executa $1 _run $1
+        ;;
+    ps|status)
+        shift
+        valida_e_executa $1 "docker ps -a | grep $1"
+        ;;
+    logs)
+        shift
+        valida_e_executa $1 docker logs -f $1
+        ;;
+    stop)
+        :
+        #exec_cmd docker exec dc /opt/jboss/jboss-eap/bin/jboss-cli.sh --user=admin --password=redhat@123 -c :shutdown
+        ;;
+    rm)
+        shift
+        valida_e_executa $1 docker rm $1
+        ;;
+    rmi)
+        exec_cmd docker rmi jboss-bpmsuite
+        ;;
+    ip)
+        shift
+        valida_e_executa $1 docker inspect --format "'{{ .NetworkSettings.IPAddress }}'" $1
+        ;;
+    *)
+        echo "Comando inválido: $1"
+        ;;
+esac

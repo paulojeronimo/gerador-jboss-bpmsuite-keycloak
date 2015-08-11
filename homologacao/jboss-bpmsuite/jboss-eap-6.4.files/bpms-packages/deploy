@@ -1,0 +1,6 @@
+#!/bin/bash
+
+BASEDIR=`cd "$(dirname "$0")"; pwd`
+
+export JBOSS_HOME=`cd "$BASEDIR/../jboss-eap-6.4"; pwd`
+"$JBOSS_HOME"/bin/jboss-cli.bat --file="$JBOSS_HOME"/bpms-packages/deploy.cli

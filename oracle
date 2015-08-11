@@ -2,37 +2,73 @@
 set +x
 
 BASEDIR=`cd "$(dirname "$0")"; pwd`
+PROJECT_HOME=$BASEDIR
 source "$BASEDIR"/gerar.config &> /dev/null || {
     source "$BASEDIR"/gerar.config.exemplo || exit
 }
+case $OSTYPE in
+    cygwin|darwin*) USA_BOOT2DOCKER=${USA_BOOT2DOCKER:-true};;
+    linux*) USA_BOOT2DOCKER=false;;
+esac
 SQL_DIR=${SQL_DIR:-$BASEDIR/scripts-sql}
 SQL_USER=${SQL_USER:-system}
 SQL_PASSWORD=${SQL_PASSWORD:-oracle}
 SQL_HOST=${SQL_HOST:-localhost}
 sql=$SQLCL_HOME/bin/sql
+ORACLE_XE_TAR=${ORACLE_XE_TAR:-$BIN_DIR/oracle-xe.tar}
+
+docker_cmd() {
+    case $1 in
+        up) 
+            if ! grep -q oracle-xe <(docker ps -a)
+            then
+                docker run --name oracle-xe -d -p 1521:1521 oracle-xe
+            else
+                docker start oracle-xe
+            fi
+            ;;
+        halt) 
+            docker stop oracle-xe
+            ;;
+        status) 
+            docker ps | grep oracle-xe
+            ;;
+        setup-port-forwarding)
+            VBoxManage controlvm "boot2docker-vm" natpf1 "oracle,tcp,,1521,,1521"
+            ;;
+        save)
+            docker save -o "$ORACLE_XE_TAR" oracle-xe
+            ;;
+        load)
+            if [ -f "$ORACLE_XE_TAR" ]
+            then
+                docker load -i "$ORACLE_XE_TAR"
+            fi
+            ;;
+    esac
+}
+
+vagrant_cmd() {
+    cd "$DOCKER_ORACLE_XE_HOME"
+    case $1 in
+        setup-port-forwarding)
+            echo "Essa configuração já deve ter sido realizada no Vagrantfile!"
+            ;;
+        save)
+            :
+            ;;
+        load)
+            :
+            ;;
+        *)
+            vagrant $1
+    esac
+    cd - &> /dev/null
+}
 
 case $1 in
-    up|halt|status)
-        case $OSTYPE in
-            cygwin|darwin*)
-                cd "$DOCKER_ORACLE_XE_HOME"
-                vagrant $1
-                ;;
-            linux*)
-                case $1 in
-                    up) 
-                        if ! grep -q oracle-xe <(docker ps -a)
-                        then
-                            docker run --name oracle-xe -d -p 1521:1521 oracle-xe
-                        else
-                            docker start oracle-xe
-                        fi
-                        ;;
-                    halt) docker stop oracle-xe;;
-                    status) docker ps | grep oracle-xe;;
-                esac
-                ;;
-        esac
+    up|halt|status|setup-port-forwarding|save|load)
+        $USA_BOOT2DOCKER && docker_cmd $1 || vagrant_cmd $1
         ;;
     *)
         f="$SQL_DIR"/$1.sql

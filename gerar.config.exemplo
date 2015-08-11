@@ -15,7 +15,7 @@ BIN_DIR=${BIN_DIR:-$PROJECT_HOME/binarios}
 ##############################################
 JBOSS_EAP=jboss-eap-6.4.0.zip
 JBOSS_EAP_PATCH=jboss-eap-6.4.2-patch.zip
-JBOSS_EAP_NATIVE_UTILS=jboss-eap-native-utils-6.4.0-win6.x86_64.zip
+JBOSS_EAP_NATIVE_UTILS_WINDOWS=jboss-eap-native-utils-6.4.0-win6.x86_64.zip
 JBOSS_BPMSUITE=jboss-bpmsuite-6.1.0.GA-deployable-eap6.x.zip
 JBOSS_BPMSUITE_PATCH_1=jboss-bpmsuite-6.1.1-patch.zip
 JBOSS_BPMSUITE_PATCH_2=BZ-1234592-patch-for-6.1.1.zip
@@ -60,9 +60,9 @@ JBOSS_DESENVOLVIMENTO_DIR=${JBOSS_DESENVOLVIMENTO_DIR:-$DESENVOLVIMENTO_DIR}
 # Configurações relativas ao ambiente de HOMOLOGAÇÂO
 ####################################################
 KEYCLOAK_DIR=$HOMOLOGACAO_DIR/keycloak
-MASTER_SLAVE_DIR=$HOMOLOGACAO_DIR/master-slave
+JBOSS_BPMSUITE_DIR=$HOMOLOGACAO_DIR/jboss-bpmsuite
 GERA_KEYCLOAK=${GERA_KEYCLOAK:-true}
-GERA_MASTER_SLAVE=${GERA_MASTER_SLAVE:-true}
+GERA_JBOSS_BPMSUITE=${GERA_JBOSS_BPMSUITE:-true}
 
 ##########################################################
 # REALM a ser importado pelo Keycloak em sua inicialização

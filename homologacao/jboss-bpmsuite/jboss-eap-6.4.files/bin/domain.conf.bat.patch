@@ -1,0 +1,11 @@
+--- domain.conf.bat.original	2015-08-10 12:27:32.724699932 -0300
++++ domain.conf.bat	2015-08-10 12:41:26.791693682 -0300
+@@ -58,6 +58,8 @@
+ rem # Use JBoss Modules lockless mode
+ rem set "JAVA_OPTS=%JAVA_OPTS% -Djboss.modules.lockless=true"
+ 
++set "JAVA_OPTS=%JAVA_OPTS% -Duser.language=en"
++set "JAVA_OPTS=%JAVA_OPTS% -Dfile.encoding=UTF-8"
+ :JAVA_OPTS_SET
+ 
+ rem The ProcessController process uses its own set of java options

@@ -23,7 +23,7 @@ ajustar_variaveis() {
     local dir=${PWD##$PROJECT_HOME/}
 
     case $dir in
-        desenvolvimento|homologacao/keycloak|homologacao/master-slave)
+        desenvolvimento|homologacao/keycloak|homologacao/jboss-bpmsuite)
             export PATCHES_DIR="$PROJECT_HOME"/$dir/$JBOSS_A_CONFIGURAR_DIR
             export JBOSS_HOME="$PROJECT_HOME"/$dir/$JBOSS_EAP_DIR
             export PATH="$JBOSS_HOME"/bin:$PATH
@@ -33,6 +33,3 @@ ajustar_variaveis() {
             ;;
     esac
 }
-
-f="$HOMOLOGACAO_DIR"/.bashrc
-[ -f "$f" ] && source "$f" || source "$f.exemplo"

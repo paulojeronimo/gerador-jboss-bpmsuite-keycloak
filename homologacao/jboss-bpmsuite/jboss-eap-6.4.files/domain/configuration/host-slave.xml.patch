@@ -1,0 +1,44 @@
+--- host-slave.xml.original	2015-08-10 14:27:29.796977564 -0300
++++ host-slave.xml	2015-08-10 14:33:24.458435218 -0300
+@@ -7,7 +7,7 @@
+             <security-realm name="ManagementRealm">
+                 <server-identities>
+                      <!-- Replace this with either a base64 password of your own, or use a vault with a vault expression -->
+-                     <secret value="c2xhdmVfdXNlcl9wYXNzd29yZA=="/>
++                     <secret value="cmVkaGF0QDEyMw=="/>
+                 </server-identities>
+ 
+                 <authentication>
+@@ -55,7 +55,7 @@
+     </management>
+ 
+     <domain-controller>
+-       <remote host="${jboss.domain.master.address}" port="${jboss.domain.master.port:9999}" security-realm="ManagementRealm"/>
++       <remote host="${env.DOMAIN_CONTROLLER_PORT_9999_TCP_ADDR}" port="${env.DOMAIN_CONTROLLER_PORT_9999_TCP_PORT}" security-realm="ManagementRealm" username="admin"/>
+     </domain-controller>
+ 
+     <interfaces>
+@@ -83,11 +83,18 @@
+    	</jvms>
+ 
+     <servers>
+-        <server name="server-one" group="main-server-group"/>
+-        <server name="server-two" group="other-server-group">
+-            <!-- server-two avoids port conflicts by incrementing the ports in
+-                 the default socket-group declared in the server-group -->
+-            <socket-bindings port-offset="150"/>
++         <server name="bpms1" group="bpms" auto-start="true">
++             <system-properties>
++                 <property name="org.uberfire.nio.git.dir" value="${jboss.home.dir}\git-bpms" boot-time="false"/>
++                 <property name="org.uberfire.metadata.index.dir" value="${jboss.home.dir}\git-bpms" boot-time="false"/>
++                 <property name="org.uberfire.nio.git.ssh.cert.dir" value="${jboss.home.dir}\git-bpms" boot-time="false"/>
++                 <property name="org.uberfire.nio.git.daemon.host" value="${jboss.bind.address}" boot-time="false"/>
++                 <property name="org.uberfire.nio.git.daemon.port" value="9418" boot-time="false"/>
++                 <property name="org.uberfire.nio.git.ssh.host" value="${jboss.bind.address}" boot-time="false"/>
++                 <property name="org.uberfire.nio.git.ssh.port" value="8003" boot-time="false"/>
++             </system-properties>
++             <jvm name="bpms-jvm"/>
++             <socket-bindings socket-binding-group="full-ha-sockets" port-offset="100"/>
+         </server>
+     </servers>
+ </host>

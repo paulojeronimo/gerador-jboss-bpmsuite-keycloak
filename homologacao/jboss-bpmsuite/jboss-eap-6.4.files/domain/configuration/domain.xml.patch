@@ -1,0 +1,73 @@
+--- domain.xml.original	2015-08-10 12:27:32.715699997 -0300
++++ domain.xml	2015-08-10 13:00:52.577308577 -0300
+@@ -1070,6 +1070,12 @@
+             <logger category="jacorb.config">
+                <level name="ERROR"/>
+             </logger>
++            <logger category="org.hibernate.loader">
++               <level name="ERROR"/>
++            </logger>
++            <logger category="stdout">
++               <level name="ERROR"/>
++            </logger>
+             <root-logger>
+                <level name="INFO"/>
+                <handlers>
+@@ -1096,10 +1102,35 @@
+                      <password>sa</password>
+                   </security>
+                </datasource>
++               <datasource jta="false" jndi-name="java:jboss/datasources/BPMS" pool-name="BPMS" enabled="true" use-ccm="false">
++                  <connection-url>ORACLE_CONNECTION_URL</connection-url>
++                  <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
++                  <driver>oracle</driver>
++                  <pool>
++                     <min-pool-size>5</min-pool-size>
++                     <max-pool-size>20</max-pool-size>
++                     <prefill>true</prefill>
++                  </pool>
++                  <security>
++                     <user-name>bpms</user-name>
++                     <password>bpms</password>
++                  </security>
++                  <validation>
++                     <validate-on-match>false</validate-on-match>
++                     <background-validation>false</background-validation>
++                  </validation>
++                  <statement>
++                     <share-prepared-statements>false</share-prepared-statements>
++                  </statement>
++               </datasource>
+                <drivers>
+                   <driver name="h2" module="com.h2database.h2">
+                      <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                   </driver>
++                  <driver name="oracle" module="com.oracle">
++                     <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
++                     <xa-datasource-class>oracle.jdbc.xa.client.OracleXADataSource</xa-datasource-class>
++                  </driver>
+                </drivers>
+             </datasources>
+          </subsystem>
+@@ -1551,17 +1582,10 @@
+       </socket-binding-group>
+    </socket-binding-groups>
+    <server-groups>
+-      <server-group name="main-server-group" profile="full">
+-         <jvm name="default">
+-            <heap size="1000m" max-size="1000m"/>
+-            <permgen max-size="256m"/>
+-         </jvm>
+-         <socket-binding-group ref="full-sockets"/>
+-      </server-group>
+-      <server-group name="other-server-group" profile="full-ha">
+-         <jvm name="default">
+-            <heap size="1000m" max-size="1000m"/>
+-            <permgen max-size="256m"/>
++      <server-group name="bpms" profile="full-ha">
++         <jvm name="bpms-jvm">
++            <heap size="1024m" max-size="2048m"/>
++            <permgen size="512m" max-size="512m"/>
+          </jvm>
+          <socket-binding-group ref="full-ha-sockets"/>
+       </server-group>

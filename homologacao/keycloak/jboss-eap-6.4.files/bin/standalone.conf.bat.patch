@@ -1,0 +1,18 @@
+--- standalone.conf.bat.original	2015-08-07 16:03:42.000000000 -0300
++++ standalone.conf.bat	2015-08-07 16:31:46.293514556 -0300
+@@ -46,7 +46,7 @@
+ rem #
+ 
+ rem # JVM memory allocation pool parameters - modify as appropriate.
+-set "JAVA_OPTS=-Xms1G -Xmx1G -XX:MaxPermSize=256M"
++set "JAVA_OPTS=-Xms256M -Xmx1G -XX:MaxPermSize=256M"
+ 
+ rem # Prefer IPv4
+ set "JAVA_OPTS=%JAVA_OPTS% -Djava.net.preferIPv4Stack=true"
+@@ -70,4 +70,6 @@
+ rem # Uncomment this to run with a security manager enabled
+ rem set "SECMGR=true"
+ 
++set "JAVA_OPTS=%JAVA_OPTS% -Duser.language=en"
++set "JAVA_OPTS=%JAVA_OPTS% -Dfile.encoding=UTF-8"
+ :JAVA_OPTS_SET

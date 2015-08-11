@@ -76,6 +76,7 @@ verificar_downloads() {
     for f in \
         $JBOSS_EAP \
         $JBOSS_EAP_PATCH \
+        $JBOSS_EAP_NATIVE_UTILS_WINDOWS \
         $JBOSS_BPMSUITE \
         $JBOSS_BPMSUITE_PATCH_1 \
         $JBOSS_BPMSUITE_PATCH_2 \
@@ -113,16 +114,26 @@ extrair_jboss_eap() {
     unzip -qo "$BIN_DIR"/$JBOSS_EAP -d "$dir"
 }
 
-extrair_jboss_eap_native_utils() {
+utilizar_jboss_eap_native_utils() {
     local dir=$1
+    local native=$JBOSS_EAP_NATIVE_UTILS_WINDOWS
 
-    log "Extraindo o JBoss EAP Native Utils (pelo arquivo $JBOSS_EAP_NATIVE_UTILS)" true
+    log "Instalando o JBoss EAP Native Utilities" true
+    case $PLATAFORMA_ALVO in
+        Windows):;;
+        *)
+            log "A plataforma \"$PLATAFORMA_ALVO\" ainda não está configurada para o uso desta função!"
+            return
+            ;;
+    esac
+
+    log "Extraindo o arquivo $native"
     if [ ! -d "$dir/$JBOSS_EAP_DIR" ]
     then
-        log "## O diretório \"$dir/$JBOSS_EAP_DIR\" não foi encontrado"
+        log "O diretório \"$dir/$JBOSS_EAP_DIR\" não foi encontrado"
     fi
 
-    unzip -qo "$BIN_DIR"/$JBOSS_EAP_NATIVE_UTILS -d "$dir"
+    unzip -qo "$BIN_DIR"/$native -d "$dir"
 }
 
 aplicar_patch_do_jboss_eap() {

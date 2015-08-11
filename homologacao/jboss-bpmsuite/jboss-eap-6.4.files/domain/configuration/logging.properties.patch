@@ -1,0 +1,11 @@
+--- logging.properties.original	2015-08-11 01:26:37.000000000 -0300
++++ logging.properties	2015-08-11 01:27:07.000000000 -0300
+@@ -52,3 +52,7 @@
+ formatter.PATTERN=org.jboss.logmanager.formatters.PatternFormatter
+ formatter.PATTERN.properties=pattern
+ formatter.PATTERN.pattern=%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n
+\ No newline at end of file
++
++# https://access.redhat.com/solutions/1420983
++loggers=org.jboss.as.controller.management-deprecated
++logger.org.jboss.as.controller.management-deprecated.level=OFF

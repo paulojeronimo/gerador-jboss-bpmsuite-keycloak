@@ -1,0 +1,6 @@
+batch
+connect 10.229.44.55
+deploy kie-server.war --server-groups=bpms
+deploy business-central.war --server-groups=bpms
+deploy dashbuilder.war --server-groups=bpms
+run-batch

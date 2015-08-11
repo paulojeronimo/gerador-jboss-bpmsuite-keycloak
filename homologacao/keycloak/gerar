@@ -1,0 +1,3 @@
+#!/bin/bash
+
+GERA_JBOSS_BPMSUITE=false ../../gerar -a homologacao "$@"

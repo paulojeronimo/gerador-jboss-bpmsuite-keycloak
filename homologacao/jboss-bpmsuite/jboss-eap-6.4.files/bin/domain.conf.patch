@@ -1,0 +1,11 @@
+--- domain.conf.original	2015-08-10 12:27:32.722699946 -0300
++++ domain.conf	2015-08-10 12:41:05.399847684 -0300
+@@ -45,6 +45,8 @@
+    JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
+    JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
+    JAVA_OPTS="$JAVA_OPTS -Djboss.modules.policy-permissions=true"
++   JAVA_OPTS="$JAVA_OPTS -Duser.language=en"
++   JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8"
+ else
+    echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
+ fi

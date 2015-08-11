@@ -36,6 +36,7 @@ Para a execução dos scripts desenvolvidos neste projeto é necessário:
 3. Baixar os seguintes binários:
     * A partir do site da Red Hat (_necessário efetuar login_):
         * [jboss-eap-6.4.0.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=37393)
+        * [jboss-eap-native-utils-6.4.0-win6.x86_64.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=36833) (_se a geração estiver sendo realizada para a plataforma Windows_)
         * [jboss-eap-6.4.2-patch.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=38833)
         * [jboss-bpmsuite-6.1.0.GA-deployable-eap6.x.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=37673)
         * [jboss-bpmsuite-6.1.1-patch.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=38333)
@@ -220,6 +221,10 @@ TODO
 * Logs do servidor (a mesma saída, em dois momentos distintos de teste, regerando a instalação do JBoss e dos bancos de dados):
     * [01/a.log](problemas/01/a.log)
     * [01/b.log](problemas/01/b.log)
+
+
+## Artigos úteis
+* http://www.schabell.org/2015/04/docker-how-to-for-jboss-integration-bpm-projects.html
 
 [cygwin]: http://cygwin.com
 [javaee-ambiente]: http://github.com/paulojeronimo/javaee-ambiente

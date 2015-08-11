@@ -1,0 +1,49 @@
+#!/bin/bash
+
+BASEDIR=`cd "$(dirname "$0")"; pwd`
+source "$BASEDIR"/../funcoes.sh
+
+case $1 in
+    setup-port-forwarding) 
+        for port in 8080 9990; do VBoxManage controlvm "boot2docker-vm" natpf1 "keycloak-$port,tcp,,$port,,$port"; done
+        ;;
+    delete-port-forwarding) 
+        for port in 8080 9990; do VBoxManage controlvm "boot2docker-vm" natpf1 delete "keycloak-$port"; done
+        ;;
+    build)
+        cd "$BASEDIR"
+        [ "$1" ] && [ "$1" = "--gerar" ] && exec_cmd ./gerar
+        rm -rf jboss-eap-6.4 BZ-1234592-for-6.1.1 jboss-bpmsuite-6.1.1-patch
+        exec_cmd docker build --rm -t keycloak .
+        ;;
+    run) 
+        if ! grep -q keycloak <(docker ps -a)
+        then
+            exec_cmd docker run --name keycloak -it -p 8080:8080 -p 9990:9990 --link oracle-xe:oracle -d keycloak
+        else
+            exec_cmd docker start keycloak
+        fi
+        exec_cmd docker logs -f keycloak
+        ;;
+    ps|status)
+        exec_cmd 'docker ps -a | grep keycloak'
+        ;;
+    logs)
+        exec_cmd docker logs -f keycloak
+        ;;
+    stop)
+        exec_cmd docker exec keycloak /opt/jboss/jboss-eap/bin/jboss-cli.sh --user=admin --password=redhat@123 -c :shutdown
+        ;;
+    rm)
+        exec_cmd docker rm keycloak
+        ;;
+    rmi)
+        exec_cmd docker rmi keycloak
+        ;;
+    ip)
+        exec_cmd 'docker inspect --format "{{ .NetworkSettings.IPAddress }}" keycloak'
+        ;;
+    *)
+        echo "Comando inválido: $1"
+        ;;
+esac
