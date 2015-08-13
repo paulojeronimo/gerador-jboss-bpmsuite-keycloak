@@ -10,4 +10,4 @@ pushd "%DIRNAME%.."
 set "JBOSS_HOME=%CD%"
 popd
 
-%JBOSS_HOME%\bin\jboss-cli.bat --file=%JBOSS_HOME%\bpms-packages\deploy.cli
+%JBOSS_HOME%\bin\jboss-cli.bat --file=%JBOSS_HOME%\packages\deploy.cli

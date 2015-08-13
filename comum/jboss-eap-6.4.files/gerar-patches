@@ -15,7 +15,7 @@ do
     then
         if [ $f -nt $f.final ]
         then
-            diff -uwNr $f.original $f > $f.patch
+            diff -uwNr $f.final $f > $f.patch
             echo "Gerado!"
         else
             echo "Ignorado!"

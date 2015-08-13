@@ -36,6 +36,41 @@ mostrar_cabecalho() {
     echo
 }
 
+valida_ambiente() {
+    local ambiente=$1
+
+    case "$ambiente" in
+        desenvolvimento|homologacao)
+            echo $ambiente
+            ;;
+        *)
+            >&2 echo "O ambiente informado ($ambiente) é inválido!"
+            return 1
+            ;;
+    esac 
+}
+
+valida_servidor() {
+    local servidor=$1
+
+    case "$servidor" in
+        dc|hc1|hc2)
+            echo $servidor
+            ;;
+        *)
+            >&2 echo "O servidor informado ($servidor) é inválido!"
+            return 1
+            ;;
+    esac
+}
+
+sai() {
+    local msg=${1:-"Encerrando aplicação ... :( verifique as mensagens anteriores!"}
+
+    echo "$msg"
+    exit 1
+}
+
 marca_inicio() {
     dt_hr_inicio=$(date +%s)
 }
@@ -70,19 +105,11 @@ remover_gerados() {
 
 verificar_downloads() {
     local download_necessario=false
+    local f
 
     log "Verificando a existência dos binários que compõe a geração" true
 
-    for f in \
-        $JBOSS_EAP \
-        $JBOSS_EAP_PATCH \
-        $JBOSS_EAP_NATIVE_UTILS_WINDOWS \
-        $JBOSS_BPMSUITE \
-        $JBOSS_BPMSUITE_PATCH_1 \
-        $JBOSS_BPMSUITE_PATCH_2 \
-        $KEYCLOAK_OVERLAY \
-        $KEYCLOAK_ADAPTER \
-        $ORACLE_DRIVER
+    for f in $DOWNLOADS
     do
         if [ -f "$BIN_DIR"/$f ]
         then
@@ -192,10 +219,12 @@ extrair_keycloak_adapter() {
 instalar_modulo() {
     local dir=$1
     local module=$2
+    local module_dir="$dir/$JBOSS_EAP_DIR"/`dirname $module`
     local binario=$3
 
     log "Instalando o arquivo $binario" true
-    cp "$BIN_DIR"/$binario "$dir/$JBOSS_EAP_DIR"/`dirname $module`
+    mkdir -p "$module_dir"
+    cp "$BIN_DIR"/$binario "$module_dir"
 }
 
 instalar_driver_da_oracle() {
@@ -208,6 +237,7 @@ instalar_driver_da_oracle() {
 copiar_e_substituir() {
     local origem=$1
     local destino=${2:-$origem}
+    local f
 
     copiar_arquivos_de() {
         local d=$1
@@ -229,6 +259,7 @@ copiar_e_substituir() {
 aplicar_patches() {
     local origem=$1
     local destino=${2:-$origem}
+    local f
    
     aplicar_patches_de() {
         local d=$1
@@ -294,6 +325,7 @@ aplicar_jboss_bpmsuite_patch_2() {
     local dir=$1
     local patch_dir="$dir/$JBOSS_BPMSUITE_PATCH_DIR_2"
     local jboss_patch_dir="$dir/$JBOSS_EAP_DIR"/standalone/deployments/business-central.war/WEB-INF/lib
+    local f
 
     log "Aplicando o patch \"$JBOSS_BPMSUITE_PATCH_2\" no JBoss BPM Suite" true
 
@@ -358,12 +390,20 @@ remover_modo_domain() {
 
 compactar_jboss_eap() {
     local dir=$1
+    local exclude
 
+    $NAO_COMPACTAR && return
     log "Compactando o JBoss EAP em "$JBOSS_EAP_DIR".zip" true
 
     cd "$dir"
     rm -f "$JBOSS_EAP_DIR.zip"
-    zip -r "$JBOSS_EAP_DIR.zip" "$JBOSS_EAP_DIR" > /dev/null
+    if [ -f $JBOSS_EAP_DIR.exclude ]
+    then
+        log "Os arquivos listados abaixo não farão parte do zip"
+        cat $JBOSS_EAP_DIR.exclude
+        exclude="-x@$JBOSS_EAP_DIR.exclude"
+    fi
+    zip -r "$JBOSS_EAP_DIR.zip" $exclude "$JBOSS_EAP_DIR" > /dev/null
     cd - &> /dev/null
 }
 
@@ -414,4 +454,39 @@ copiar_keycloak_realm() {
     local realm_dir="$PROJECT_HOME"/keycloak/$KEYCLOAK_REALM_NAME
 
     cp "$realm_dir"/$KEYCLOAK_REALM_NAME-realm.json "$dir/$JBOSS_EAP_DIR"
+}
+
+empacotar_apps_para_o_modo_domain() {
+    local dir=$1
+    local packages_dir="$dir/$JBOSS_EAP_DIR"/packages
+    local deployments_dir="$dir/$JBOSS_EAP_DIR"/standalone/deployments
+    local f
+
+    log "Empacotando aplicações para o deploy no modo domain" true
+    mkdir -p "$packages_dir"
+    pushd "$deployments_dir" &> /dev/null
+    for f in business-central dashbuilder kie-server
+    do
+        cd $f.war
+        echo "Empacotando a aplicação $f.war"
+        zip -rq "$packages_dir"/$f.war .
+        cd - &> /dev/null
+    done
+    popd &> /dev/null
+}
+
+desempacotar_apps_para_o_modo_standalone() {
+    local dir=$1
+    local packages_dir="$dir/$JBOSS_EAP_DIR"/packages
+    local deployments_dir="$dir/$JBOSS_EAP_DIR"/standalone/deployments
+    local f
+
+    log "Desempacotando aplicações para o deploy no modo standalone" true
+    mkdir -p "$deployments_dir"
+    pushd "$deployments_dir" &> /dev/null
+    for f in business-central dashbuilder kie-server
+    do
+        unzip -d $f.war -q "$packages_dir"/$f.war
+    done
+    popd &> /dev/null
 }

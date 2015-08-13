@@ -23,6 +23,20 @@ KEYCLOAK_OVERLAY=keycloak-overlay-eap6-1.4.0.Final.zip
 KEYCLOAK_ADAPTER=keycloak-eap6-adapter-dist-1.4.0.Final.zip
 ORACLE_DRIVER=ojdbc7.jar
 
+DOWNLOADS="\
+$JBOSS_EAP \
+$JBOSS_EAP_PATCH \
+$JBOSS_EAP \
+$JBOSS_EAP_NATIVE_UTILS_WINDOWS \
+$JBOSS_BPMSUITE \
+$JBOSS_BPMSUITE_PATCH_1 \
+$JBOSS_BPMSUITE_PATCH_2 \
+$KEYCLOAK_OVERLAY \
+$KEYCLOAK_ADAPTER \
+$ORACLE_DRIVER \
+$DOWNLOADS \
+"
+
 ################################
 # Projetos externos (auxiliares)
 ################################
@@ -73,3 +87,9 @@ KEYCLOAK_REALM_NAME=myapp
 # Plataforma alvo da geração
 ############################
 PLATAFORMA_ALVO=${PLATAFORMA_ALVO:-Linux}
+
+########################
+# Configurações diversas
+########################
+# Aborta a rotina de compactação se true
+NAO_COMPACTAR=${NAO_COMPACTAR:-false}
