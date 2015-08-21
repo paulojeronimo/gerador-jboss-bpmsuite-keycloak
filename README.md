@@ -39,7 +39,7 @@ Para a execução dos scripts desenvolvidos neste projeto é necessário:
         * [jboss-eap-native-utils-6.4.0-win6.x86_64.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=36833) (_se a geração estiver sendo realizada para a plataforma Windows_)
         * [jboss-eap-6.4.2-patch.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=38833)
         * [jboss-bpmsuite-6.1.0.GA-deployable-eap6.x.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=37673)
-        * [jboss-bpmsuite-6.1.2-patch.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=38333)
+        * [jboss-bpmsuite-6.1.2-patch.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=38993)
     * [keycloak-overlay-eap6-1.4.0.Final.zip](http://downloads.jboss.org/keycloak/1.4.0.Final/keycloak-overlay-eap6-1.4.0.Final.zip)
     * [keycloak-eap6-adapter-dist-1.4.0.Final.zip](http://downloads.jboss.org/keycloak/1.4.0.Final/keycloak-overlay-eap6-1.4.0.Final.zip)
     * [ojdbc7.jar](http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html) (_necessário aceitar os temos da licença_)
