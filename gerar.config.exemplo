@@ -17,8 +17,7 @@ JBOSS_EAP=jboss-eap-6.4.0.zip
 JBOSS_EAP_PATCH=jboss-eap-6.4.2-patch.zip
 JBOSS_EAP_NATIVE_UTILS_WINDOWS=jboss-eap-native-utils-6.4.0-win6.x86_64.zip
 JBOSS_BPMSUITE=jboss-bpmsuite-6.1.0.GA-deployable-eap6.x.zip
-JBOSS_BPMSUITE_PATCH_1=jboss-bpmsuite-6.1.1-patch.zip
-JBOSS_BPMSUITE_PATCH_2=BZ-1234592-patch-for-6.1.1.zip
+JBOSS_BPMSUITE_PATCH_1=jboss-bpmsuite-6.1.2-patch.zip
 KEYCLOAK_OVERLAY=keycloak-overlay-eap6-1.4.0.Final.zip
 KEYCLOAK_ADAPTER=keycloak-eap6-adapter-dist-1.4.0.Final.zip
 ORACLE_DRIVER=ojdbc7.jar
@@ -26,11 +25,9 @@ ORACLE_DRIVER=ojdbc7.jar
 DOWNLOADS="\
 $JBOSS_EAP \
 $JBOSS_EAP_PATCH \
-$JBOSS_EAP \
 $JBOSS_EAP_NATIVE_UTILS_WINDOWS \
 $JBOSS_BPMSUITE \
 $JBOSS_BPMSUITE_PATCH_1 \
-$JBOSS_BPMSUITE_PATCH_2 \
 $KEYCLOAK_OVERLAY \
 $KEYCLOAK_ADAPTER \
 $ORACLE_DRIVER \
@@ -49,8 +46,7 @@ SQLCL_HOME=${SQLCL_HOME:-~/Projects/github.com/paulojeronimo/javaee-ambiente/fer
 # Nome do diretório (relativo) contendo a estrutura do JBoss
 JBOSS_EAP_DIR=jboss-eap-6.4
 # Diretórios criados na extração dos arquivos JBOSS_BPMSUITE_PATCH_*
-JBOSS_BPMSUITE_PATCH_DIR_1=jboss-bpmsuite-6.1.1-patch
-JBOSS_BPMSUITE_PATCH_DIR_2=BZ-1234592-for-6.1.1
+JBOSS_BPMSUITE_PATCH_DIR_1=jboss-bpmsuite-6.1.2-patch
 # Nome do diretório (relativo) que contém a estrutura que será configurada no JBoss
 JBOSS_A_CONFIGURAR_DIR=jboss-eap-6.4.files
 
