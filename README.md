@@ -87,7 +87,7 @@ vim ambiente.config
 
 Configure o ambiente para utilizar as variáveis e funções definidas nesse arquivo:
 ```
-source configurar-ambiente
+source "$AMBIENTE_HOME"/configurar
 ```
 
 Execute a função ``jboss_instalar`` e observe que, ao final da execução dessa função, o JBoss BPM Suite estará gerado em ``$FERRAMENTAS_DIR/jboss-eap-6.4``.

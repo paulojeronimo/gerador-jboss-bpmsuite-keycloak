@@ -1,9 +1,0 @@
-#!/bin/bash
-
-cd "$AMBIENTE_HOME"
-f="$OLDPWD"/ambiente.config
-rm ${f##*/}
-[ -f "$f" ] || cp "$f.exemplo" "$f"
-ln -s "$f"
-source ${f##*/}
-cd - &> /dev/null
