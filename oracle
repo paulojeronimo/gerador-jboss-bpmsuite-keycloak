@@ -6,15 +6,19 @@ PROJECT_HOME=$BASEDIR
 source "$BASEDIR"/gerar.config &> /dev/null || {
     source "$BASEDIR"/gerar.config.exemplo || exit
 }
+sql=$SQLCL_HOME/bin/sql
 case $OSTYPE in
-    cygwin|darwin*) USA_BOOT2DOCKER=${USA_BOOT2DOCKER:-true};;
-    linux*) USA_BOOT2DOCKER=false;;
+    cygwin) 
+        USA_BOOT2DOCKER=${USA_BOOT2DOCKER:-false}
+        sql=$SQLCL_HOME/bin/sql.bat
+        ;;
+    darwin*) USA_BOOT2DOCKER=${USA_BOOT2DOCKER:-true};;
+    linux*) USA_BOOT2DOCKER=${USA_BOOT2DOCKER:-false};;
 esac
 SQL_DIR=${SQL_DIR:-$BASEDIR/scripts-sql}
 SQL_USER=${SQL_USER:-system}
 SQL_PASSWORD=${SQL_PASSWORD:-oracle}
 SQL_HOST=${SQL_HOST:-localhost}
-sql=$SQLCL_HOME/bin/sql
 ORACLE_XE_TAR=${ORACLE_XE_TAR:-$BIN_DIR/oracle-xe.tar}
 
 docker_cmd() {
@@ -68,14 +72,20 @@ vagrant_cmd() {
 
 case $1 in
     up|halt|status|setup-port-forwarding|save|load)
-        $USA_BOOT2DOCKER && docker_cmd $1 || vagrant_cmd $1
-        ;;
+        if $USA_BOOT2DOCKER
+        then
+            docker_cmd $1
+        else
+            vagrant_cmd $1
+        fi
+    ;;
     *)
         f="$SQL_DIR"/$1.sql
         [ -f "$f" ] || { echo "Arquivo \"$f\" não encontrado!"; exit 1; }
-        "$sql" -S $SQL_USER/$SQL_PASSWORD@//$SQL_HOST:1521 <<EOF
-@"$f"
-quit;
-EOF
-        ;;
+        cp "$f" /tmp/
+        f=/tmp/`basename "$f"`
+        echo "quit;" >> $f
+        [[ $OSTYPE = cygwin ]] && f=`cygpath -m $f`
+        "$sql" -S $SQL_USER/$SQL_PASSWORD@//$SQL_HOST:1521 @$f
+    ;;
 esac
