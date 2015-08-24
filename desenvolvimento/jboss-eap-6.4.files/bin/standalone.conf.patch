@@ -1,10 +1,14 @@
---- standalone.conf.original	2015-08-07 11:59:54.962743174 -0300
-+++ standalone.conf	2015-08-07 13:39:01.419998568 -0300
-@@ -50,6 +50,9 @@
+--- standalone.conf.original	2015-08-24 14:57:36.542874200 -0300
++++ standalone.conf	2015-08-24 15:07:15.189949000 -0300
+@@ -50,6 +50,13 @@
     JAVA_OPTS="-Xms1303m -Xmx1303m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
     JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
     JAVA_OPTS="$JAVA_OPTS -Djboss.modules.policy-permissions=true"
-+   JAVA_OPTS="$JAVA_OPTS -Dkeycloak.import=\"$JBOSS_HOME/myapp-realm.json\""
++   if $cygwin; then
++      JAVA_OPTS="$JAVA_OPTS -Dkeycloak.import=\"`cygpath -m $JBOSS_HOME/myapp-realm.json`\""
++   else
++      JAVA_OPTS="$JAVA_OPTS -Dkeycloak.import=\"$JBOSS_HOME/myapp-realm.json\""
++   fi
 +   JAVA_OPTS="$JAVA_OPTS -Duser.language=en"
 +   JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8"
  else
