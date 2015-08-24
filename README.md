@@ -56,9 +56,12 @@ No ambiente de desenvolvimento, uma única instância de JBoss é utilizada para
 
 ### Geração sem o uso do projeto javaee-ambiente
 
-Crie o diretório ``binarios`` e copie os arquivos baixados para esse diretório.
-
 Abra um shell Bash (no Windows, utilize o Cygwin).
+
+Crie o diretório ``binarios`` e copie (ou mova) os arquivos baixados para esse diretório. _Alternativamente, você pode simplesmente criar o link ``binarios`` apontando-o para o diretório ``~/Downloads`` com o comando a seguir:_
+```
+ln -s ~/Downloads binarios
+```
 
 Copie o arquivo ``gerar.config.exemplo`` para ``gerar.config`` e edite-o fazendo quaisquer ajustes que forem necessários para o teu ambiente.
 
@@ -67,7 +70,7 @@ Vá para o diretório desse projeto e execute:
 ./gerar
 ```
 
-Alternativamente, caso você deseje utilizar os binários disponíveis em um diretório específico (diferente de ``binarios``), você pode utilizar a variável ``BIN_DIR`` para informar a localização desse diretório. Dessa forma, a execução do script acima pode ser realizada da seguinte forma (por exemplo):
+Caso você deseje utilizar os binários disponíveis em um diretório específico (diferente de ``binarios``), você pode utilizar a variável ``BIN_DIR`` para informar a localização desse diretório. Dessa forma, a execução do script acima pode ser realizada da seguinte forma (por exemplo):
 ```
 BIN_DIR=$INSTALADORES_DIR ./gerar
 ```
@@ -76,9 +79,15 @@ Ao final da execução do script ``gerar`` o JBoss BPM Suite estará disponível
 
 ### Geração utilizando o projeto javaee-ambiente
 
-Edite o arquivo ``$AMBIENTE_HOME/ambiente.config`` e adicione a seguinte linha a ele (informando, obviamente, a localização correta deste projeto):
+Copie o arquivo ``ambiente.config`` e edite-o conforme o teu ambiente:
 ```
-JBOSS_INSTALA_DIR=$PROJETOS_DIR/gerador-jboss-bmpsuite-keycloak
+cp ambiente.config.exemplo ambiente.config
+vim ambiente.config
+```
+
+Configure o ambiente para utilizar as variáveis e funções definidas nesse arquivo:
+```
+source configurar-ambiente
 ```
 
 Execute a função ``jboss_instalar`` e observe que, ao final da execução dessa função, o JBoss BPM Suite estará gerado em ``$FERRAMENTAS_DIR/jboss-eap-6.4``.

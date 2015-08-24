@@ -1,0 +1,3 @@
+PROJETOS_DIR=${PROJETOS_DIR:-~/Projects}
+JBOSS_INSTALA_DIR=$PROJETOS_DIR/github.com/paulojeronimo/gerador-jboss-bpmsuite-keycloak
+gerador() { cd "$JBOSS_INSTALA_DIR"; }
