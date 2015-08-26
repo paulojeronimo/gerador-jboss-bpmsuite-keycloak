@@ -54,7 +54,7 @@ valida_servidor() {
     local servidor=$1
 
     case "$servidor" in
-        dc|hc1|hc2)
+        dc|hc)
             echo $servidor
             ;;
         *)
