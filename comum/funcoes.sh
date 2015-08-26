@@ -114,7 +114,7 @@ verificar_downloads() {
         then
             log "Encontrado o arquivo \"$f\""
         else
-            log "Arquivo \"$f\" não econtrado!"
+            log "Arquivo \"$f\" não encontrado!"
             download_necessario=true
             continue
         fi
