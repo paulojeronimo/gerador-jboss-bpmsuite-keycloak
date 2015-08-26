@@ -99,6 +99,7 @@ remover_gerados() {
         -o \( -type f -name "${JBOSS_EAP_DIR}.zip" \) \
         -o \( -type f -name "${JBOSS_EAP_DIR}.remove.bat" \) \
         -o \( -type d -name "$JBOSS_BPMSUITE_PATCH_DIR_1" \) \
+        -o \( -type d -name "$JBOSS_BPMSUITE_PATCH_DIR_2" \) \
         | xargs -I {} rm -rf "{}"
 }
 
@@ -320,10 +321,46 @@ EOF
     cd - &> /dev/null
 }
 
+aplicar_jboss_bpmsuite_patch_2() {
+    local dir=$1
+    local patch_dir="$dir/$JBOSS_BPMSUITE_PATCH_DIR_2"
+    local jboss_patch_dir="$dir/$JBOSS_EAP_DIR"/standalone/deployments/business-central.war/WEB-INF/lib
+    local f
+
+    log "Aplicando o patch \"$JBOSS_BPMSUITE_PATCH_2\" no JBoss BPM Suite" true
+
+    log "Removendo o diretório \"$patch_dir\""
+    rm -rf "$patch_dir"
+
+    log "Extraindo o arquivo do patch"
+    unzip -qo -d "$dir" "$BIN_DIR"/"$JBOSS_BPMSUITE_PATCH_2"
+
+    log "Adicionando a extensão .backup nos arquivos que serão substituidos"
+    cd "$jboss_patch_dir"
+    for f in \
+        jbpm-executor-6.2.0.Final-redhat-6.jar \
+        jbpm-persistence-jpa-6.2.0.Final-redhat-6.jar
+    do
+        mv $f $f.backup
+    done
+    cd - &> /dev/null
+
+    log "Copiando os arquivos do patch"
+    cd "$patch_dir"
+    for f in \
+        jbpm-executor-6.2.0.Final-redhat-6-BZ-1234592.jar \
+        jbpm-persistence-jpa-6.2.0.Final-redhat-6-BZ-1234592.jar
+    do
+        cp $f "$jboss_patch_dir"
+    done
+    cd - &> /dev/null
+}
+
 aplicar_patches_do_jboss_bpmsuite() {
     local dir=$1
 
     aplicar_jboss_bpmsuite_patch_1 "$dir"
+    aplicar_jboss_bpmsuite_patch_2 "$dir"
 }
 
 remover_modo() {
