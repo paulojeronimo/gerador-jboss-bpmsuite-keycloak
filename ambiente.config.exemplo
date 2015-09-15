@@ -1,6 +1,6 @@
 PROJETOS_DIR=${PROJETOS_DIR:-~/Projects}
-JBOSS_INSTALA_DIR=$PROJETOS_DIR/github.com/paulojeronimo/gerador-jboss-bpmsuite-keycloak
+JBOSS_EAP_INSTALA_DIR=$PROJETOS_DIR/github.com/paulojeronimo/gerador-jboss-bpmsuite-keycloak
 DOCKER_ORACLE_XE_HOME=$PROJETOS_DIR/github.com/paulojeronimo/docker-oracle-xe
 
-gerador() { cd "$JBOSS_INSTALA_DIR"; }
+gerador() { cd "$JBOSS_EAP_INSTALA_DIR"; }
 oracle() { cd "$DOCKER_ORACLE_XE_HOME"; }
