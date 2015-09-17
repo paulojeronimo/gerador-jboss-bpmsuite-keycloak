@@ -1,11 +1,10 @@
---- standalone.conf.bat.original	2015-08-07 13:31:41.947154209 -0300
-+++ standalone.conf.bat	2015-08-07 13:46:55.103601558 -0300
-@@ -70,4 +70,8 @@
+--- standalone.conf.bat.final	2015-09-17 15:27:51.976370900 -0300
++++ standalone.conf.bat	2015-09-17 17:01:24.930765500 -0300
+@@ -70,7 +70,6 @@
  rem # Uncomment this to run with a security manager enabled
  rem set "SECMGR=true"
  
-+set "JAVA_OPTS=%JAVA_OPTS% -Dkeycloak.import=%JBOSS_HOME%\myapp-realm.json"
-+set "JAVA_OPTS=%JAVA_OPTS% -Duser.language=en"
-+set "JAVA_OPTS=%JAVA_OPTS% -Dfile.encoding=UTF-8"
-+
- :JAVA_OPTS_SET
+-set "JAVA_OPTS=%JAVA_OPTS% -Dkeycloak.import=%JBOSS_HOME%\myapp-realm.json"
+ set "JAVA_OPTS=%JAVA_OPTS% -Duser.language=en"
+ set "JAVA_OPTS=%JAVA_OPTS% -Dfile.encoding=UTF-8"
+ 

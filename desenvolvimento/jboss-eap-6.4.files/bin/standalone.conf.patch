@@ -1,16 +1,15 @@
---- standalone.conf.original	2015-08-24 14:57:36.542874200 -0300
-+++ standalone.conf	2015-08-24 15:07:15.189949000 -0300
-@@ -50,6 +50,13 @@
+--- standalone.conf.final	2015-09-17 15:27:52.060440200 -0300
++++ standalone.conf	2015-09-17 17:01:09.067956000 -0300
+@@ -50,12 +50,6 @@
     JAVA_OPTS="-Xms1303m -Xmx1303m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
     JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
     JAVA_OPTS="$JAVA_OPTS -Djboss.modules.policy-permissions=true"
-+   if $cygwin; then
-+      JAVA_OPTS="$JAVA_OPTS -Dkeycloak.import=\"`cygpath -m $JBOSS_HOME/myapp-realm.json`\""
-+   else
-+      JAVA_OPTS="$JAVA_OPTS -Dkeycloak.import=\"$JBOSS_HOME/myapp-realm.json\""
-+   fi
-+   JAVA_OPTS="$JAVA_OPTS -Duser.language=en"
-+   JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8"
+-   if [ "$KEYCLOAK_IMPORT" ]; then
+-      if $cygwin; then
+-         KEYCLOAK_IMPORT=`cygpath -m "$KEYCLOAK_IMPORT"`
+-      fi
+-      JAVA_OPTS="$JAVA_OPTS -Dkeycloak.import=\"$KEYCLOAK_IMPORT\""
+-   fi
+    JAVA_OPTS="$JAVA_OPTS -Duser.language=en"
+    JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8"
  else
-    echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
- fi
