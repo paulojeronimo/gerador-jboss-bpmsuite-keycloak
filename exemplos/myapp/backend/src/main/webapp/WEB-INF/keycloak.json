@@ -1,6 +1,6 @@
 {
   "realm": "myapp",
-  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAypQA519jv9FKADiaHrveXH1kiv5GOqVmrNBTpW6rmP4aL7lKZUMbwWey8gPGxW4Yub8oJyVcyN7EHYRGCs2ghiaSraFOe/40YeOXy2Z1rSowmOWA3vGOY68FfSt4XaWVBuMI+1t4H6NCRFSEvtsNJr2YIjhz5SjO6Yywv90ES7DwwleD2InNUYeSBK0yyTaru4aV01U/7DkpsyFtMPIsA9JAsTpXSHIwUQT1dLat5gpR6sglbQCa+SjtFR4GmO2QBsUf+LSrahAnROH/JFEhLP+HE2bU/psBUeu5xRn3ttPZzK6flrfqgaFTLHMSXnfDg0jUhE6P9A3RPQQJjwl9+wIDAQAB",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAounx0ZMGcexySWUX+lxXbMS0W7X43x61A2Dy2XfGK6UPjzBCYZewQH2G6cC8sZCeQKJogBcwIl0W1ybzOu1qjlztCVfc7Wn+K9wZ1a4EWibUHbGFvnspA/N57tuHdWIIWFT2j8JZiQbBNhK52Vco9HaWhr5h/e4E15+r7rqoSd+Q9Z3h+0x8l7v9J/blCimqLvSDXYr4IT6hcZRqA3fMJs1rdy6OaaRT7OjhKfsjLOBMaWdwx7oNGSVw+Gc4UTVtfnZ81KYaGpyi1LYscZv/MBlTA8M1/1s5U8NejhxmdScWsTwq8f++PtLYszoXRShmTMRpUgIx4OUGwfLN5jjiKwIDAQAB",
   "bearer-only": true,
   "auth-server-url": "http://localhost:8080/auth",
   "ssl-required": "external",
