@@ -9,11 +9,11 @@ source "$BASEDIR"/gerar.config &> /dev/null || {
 sql=$SQLCL_HOME/bin/sql
 case $OSTYPE in
     cygwin) 
-        USA_BOOT2DOCKER=${USA_BOOT2DOCKER:-false}
+        USA_VAGRANT=${USA_VAGRANT:-true}
         sql=$SQLCL_HOME/bin/sql.bat
         ;;
-    darwin*) USA_BOOT2DOCKER=${USA_BOOT2DOCKER:-true};;
-    linux*) USA_BOOT2DOCKER=${USA_BOOT2DOCKER:-false};;
+    darwin*) USA_VAGRANT=${USA_VAGRANT:-true};;
+    linux*) USA_VAGRANT=${USA_VAGRANT:-false};;
 esac
 SQL_DIR=${SQL_DIR:-$BASEDIR/scripts-sql}
 SQL_USER=${SQL_USER:-system}
@@ -72,7 +72,7 @@ vagrant_cmd() {
 
 case $1 in
     up|halt|status|setup-port-forwarding|save|load)
-        if $USA_BOOT2DOCKER
+        if ! $USA_VAGRANT
         then
             docker_cmd $1
         else
