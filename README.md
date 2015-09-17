@@ -91,7 +91,7 @@ Configure o ambiente para utilizar as variáveis e funções definidas nesse arq
 source "$AMBIENTE_HOME"/configurar
 ```
 
-Execute a função ``jboss_instalar`` e observe que, ao final da execução dessa função, o JBoss BPM Suite estará gerado em ``$FERRAMENTAS_DIR/jboss-eap-6.4``.
+Execute a função ``jboss_eap_instalar`` e observe que, ao final da execução dessa função, o JBoss BPM Suite estará gerado em ``$FERRAMENTAS_DIR/jboss-eap-6.4``.
 
 O arquivo [jboss.sh](jboss.sh) é o que realiza a integração deste projeto com o projeto javaee-ambiente. Altere o seu conteúdo se precisar fazer algum ajuste.
 
@@ -182,14 +182,21 @@ Os exemplos do Keycloak (arquivo [keycloak-examples-1.4.0.Final.zip](http://down
 
 Uma forma de testar esses exemplos, passo a passo, é descrita no projeto [tutorial-keycloak](http://github.com/paulojeronimo/tutorial-keycloak).
 
-Para rodar os testes do exemplo ``preconfigured-demo`` aqui, neste ambiente, copie o arquivo dos exemplos para o diretório ``binarios``. Instale o Maven. Em seguida vá para o diretório deste projeto e execute:
+Para rodar os testes do exemplo ``preconfigured-demo`` aqui, neste ambiente, copie o arquivo keycloak-examples-1.4.0.Final.zip para o diretório ``binarios``. Instale o Maven. Em seguida vá para o diretório ``HOME`` deste projeto e execute:
 
 ```
-unzip binarios/keycloak-examples-1.4.0.Final.zip
-cd keycloak-examples-1.4.0.Final/preconfigured-demo/
+unzip -d exemplos binarios/keycloak-examples-1.4.0.Final.zip
+cd exemplos/keycloak-examples-1.4.0.Final/preconfigured-demo/
 mvn clean install
+```
+
+Importe o arquivo ``testrealm.json`` (do diretório atual) conforme os passos exemplificados no tutorial para, em seguida, implantar os exemplos com o seguinte comando:
+
+```
 mvn jboss-as:deploy
 ```
+
+Após a conclusão da implantação dos exemplos é possível executá-los da maneira demonstrada no tutorial. Teste, por exemplo, o acesso a URL http://localhost:8080/customer-portal/.
 
 ### Remoção do ambiente
 
@@ -197,7 +204,8 @@ Remover o ambiente é, no contexto deste projeto, excluir arquivos e diretórios
 * jboss-eap-6.4.zip (arquivo)
 * jboss-eap-6.4.remove.bat (arquivo)
 * jboss-eap-6.4 (diretório)
-* jboss-bpmsuite-6.1.2-patch (diretório)
+* jboss-bpmsuite-6.1.1-patch (diretório)
+* BZ-1234592-for-6.1.1 (diretório)
 
 #### Remoção sem o uso do projeto javaee-ambiente
 
@@ -211,7 +219,7 @@ O parâmetro ``-r`` é para remover os arquivos. O parâmetro ``-s`` é para for
 #### Remoção utilizando o projeto javaee-ambiente
 
 ```
-jboss_remover
+jboss_eap_remover
 ```
 
 ## Geração e uso do ambiente de homologação
