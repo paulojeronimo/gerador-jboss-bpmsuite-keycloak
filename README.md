@@ -111,7 +111,7 @@ Após instalar o sqlcl, configure variável de ambiente ``SQLCL_HOME`` informand
 ./oracle create-databases
 ```
 
-#### Criação do realm do Keycloak (e sua exportação)
+#### Criação do realm "myapp" no Keycloak (e sua exportação)
 
 Este passo é necessário para a criação do arquivo ``myapp-realm.json``. Esse arquivo é importado pelo Keycloak na inicialização do JBoss e isso é realizado quando é especificado o parâmetro ``-Dkeycloak.import=$JBOSS_HOME/myapp-realm.json``. Dessa forma o Keycloak importa (se já não existirem) as configurações para o realm ``myapp``.
 
@@ -161,12 +161,18 @@ Se for necessário remover os bancos de dados do BPMS e do KEYCLOAK, o seguinte 
 ./oracle drop-databases
 ```
 
-#### Inicialização do JBoss
+#### Inicialização do JBoss e importação do realm "myapp"
 
-Ajuste o valor da variável JBOSS_HOME para a localização do JBoss gerado. Em seguida, inicie o JBoss:
+Ajuste o valor da variável JBOSS_HOME para a localização do JBoss gerado. Em seguida, inicie o JBoss com os comandos abaixo:
 ```
-$JBOSS_HOME/bin/standalone.sh
+realm="$PWD"/keycloak/myapp/myapp-realm.json
+[[ $OSTYPE = cygwin ]] && realm=`cygpath -m "$realm"`
+$JBOSS_HOME/bin/standalone.sh -Dkeycloak.import="$realm"
 ```
+
+Nos comandos acima, a variável ``realm`` conterá o caminho completo até o arquivo ``myapp-realm.json``. No caso de utilização do Cygwin, esse caminho será convertido para o formato misto (``C:/caminho/ate/o/arquivo``) com o comando ``cygpath -m``. Dessa forma, o Java conseguirá compreender o caminho até esse arquivo.
+
+A inicialização do JBoss com o parâmetro ``-Dkeycloak.import=...`` só é necessária quando desejarmos popular a base do Keycloak. Populada essa base, esse parâmetro não precisa mais ser passado.
 
 Acesse a interface administrativa do JBoss em http://localhost:9990. O "usuário/senha" pré-configurado para esse acesso é "admin/redhat@123".
 
@@ -197,6 +203,22 @@ mvn jboss-as:deploy
 ```
 
 Após a conclusão da implantação dos exemplos é possível executá-los da maneira demonstrada no tutorial. Teste, por exemplo, o acesso a URL http://localhost:8080/customer-portal/.
+
+#### Implantação e teste do exemplo "myapp"
+
+Implantação do backend:
+```
+cd exemplos/myapp/backend
+mvn clean package jboss-as:deploy
+```
+
+Implantação do frontend:
+```
+cd ../frontend
+mvn clean package jboss-as:deploy
+```
+
+Acesse o frontend na URL http://localhost:8080/myapp-frontend. Efetue o login com o usuário ``user1`` e a senha ``redhat@123``.
 
 ### Remoção do ambiente
 
