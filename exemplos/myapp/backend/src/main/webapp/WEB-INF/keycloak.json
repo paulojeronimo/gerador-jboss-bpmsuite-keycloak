@@ -1,0 +1,8 @@
+{
+  "realm": "myapp",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAypQA519jv9FKADiaHrveXH1kiv5GOqVmrNBTpW6rmP4aL7lKZUMbwWey8gPGxW4Yub8oJyVcyN7EHYRGCs2ghiaSraFOe/40YeOXy2Z1rSowmOWA3vGOY68FfSt4XaWVBuMI+1t4H6NCRFSEvtsNJr2YIjhz5SjO6Yywv90ES7DwwleD2InNUYeSBK0yyTaru4aV01U/7DkpsyFtMPIsA9JAsTpXSHIwUQT1dLat5gpR6sglbQCa+SjtFR4GmO2QBsUf+LSrahAnROH/JFEhLP+HE2bU/psBUeu5xRn3ttPZzK6flrfqgaFTLHMSXnfDg0jUhE6P9A3RPQQJjwl9+wIDAQAB",
+  "bearer-only": true,
+  "auth-server-url": "http://localhost:8080/auth",
+  "ssl-required": "external",
+  "resource": "myapp-backend"
+}
