@@ -1,5 +1,5 @@
---- standalone.xml.original	2015-08-04 09:31:06.741712142 -0300
-+++ standalone.xml	2015-08-04 09:33:30.231690364 -0300
+--- standalone.xml.original	2015-09-16 22:40:05.000000000 -0300
++++ standalone.xml	2015-09-17 04:27:42.000000000 -0300
 @@ -24,11 +24,17 @@
        <extension module="org.jboss.as.webservices"/>
        <extension module="org.jboss.as.weld"/>
@@ -85,7 +85,20 @@
              </drivers>
           </datasources>
        </subsystem>
-@@ -285,6 +340,19 @@
+@@ -197,6 +252,12 @@
+          <default-missing-method-permissions-deny-access value="true"/>
+       </subsystem>
+       <subsystem xmlns="urn:jboss:domain:infinispan:1.5">
++         <cache-container name="keycloak" jndi-name="infinispan/Keycloak" start="EAGER">
++            <local-cache name="realms"/>
++            <local-cache name="users"/>
++            <local-cache name="sessions"/>
++            <local-cache name="loginFailures"/>
++         </cache-container>
+          <cache-container name="web" aliases="standard-session-cache" default-cache="local-web" module="org.jboss.as.clustering.web.infinispan">
+             <local-cache name="local-web" batching="true">
+                <file-store passivation="false" purge="false"/>
+@@ -285,6 +346,19 @@
                    <policy-module code="Delegating" flag="required"/>
                 </authorization>
              </security-domain>
@@ -105,7 +118,7 @@
           </security-domains>
        </subsystem>
        <subsystem xmlns="urn:jboss:domain:threads:1.1"/>
-@@ -384,6 +452,10 @@
+@@ -384,6 +458,10 @@
              </jms-connection-factories>
           </hornetq-server>
        </subsystem>

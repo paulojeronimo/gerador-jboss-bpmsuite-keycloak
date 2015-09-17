@@ -19,8 +19,8 @@ JBOSS_EAP_NATIVE_UTILS_WINDOWS=jboss-eap-native-utils-6.4.0-win6.x86_64.zip
 JBOSS_BPMSUITE=jboss-bpmsuite-6.1.0.GA-deployable-eap6.x.zip
 JBOSS_BPMSUITE_PATCH_1=jboss-bpmsuite-6.1.1-patch.zip
 JBOSS_BPMSUITE_PATCH_2=BZ-1234592-patch-for-6.1.1.zip
-KEYCLOAK_OVERLAY=keycloak-overlay-eap6-1.4.0.Final.zip
-KEYCLOAK_ADAPTER=keycloak-eap6-adapter-dist-1.4.0.Final.zip
+KEYCLOAK_OVERLAY=keycloak-overlay-eap6-1.5.0.Final.zip
+KEYCLOAK_ADAPTER=keycloak-eap6-adapter-dist-1.5.0.Final.zip
 ORACLE_DRIVER=ojdbc7.jar
 
 DOWNLOADS="\

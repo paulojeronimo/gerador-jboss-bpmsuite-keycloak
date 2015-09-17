@@ -41,8 +41,8 @@ Para a execução dos scripts desenvolvidos neste projeto é necessário:
         * [jboss-bpmsuite-6.1.0.GA-deployable-eap6.x.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=37673)
         * [jboss-bpmsuite-6.1.1-patch.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=38283)
         * [BZ-1234592-patch-for-6.1.1.zip](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=38753&product=bpm.suite)
-    * [keycloak-overlay-eap6-1.4.0.Final.zip](http://downloads.jboss.org/keycloak/1.4.0.Final/keycloak-overlay-eap6-1.4.0.Final.zip)
-    * [keycloak-eap6-adapter-dist-1.4.0.Final.zip](http://downloads.jboss.org/keycloak/1.4.0.Final/keycloak-overlay-eap6-1.4.0.Final.zip)
+    * [keycloak-overlay-eap6-1.5.0.Final.zip](http://downloads.jboss.org/keycloak/1.5.0.Final/keycloak-overlay-eap6-1.5.0.Final.zip)
+    * [keycloak-eap6-adapter-dist-1.5.0.Final.zip](http://downloads.jboss.org/keycloak/1.5.0.Final/adapters/keycloak-eap6-adapter-dist-1.5.0.Final.zip)
     * [ojdbc7.jar](http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html) (_necessário aceitar os temos da licença_)
 
 Para a execução do JBoss BPM Suite gerado através desse projeto, é necessário:
@@ -178,15 +178,15 @@ O Dashbuilder pode ser acessado através da URL http://localhost:8080/dashbuilde
 
 #### Implantação e testes de exemplos do Keycloak
 
-Os exemplos do Keycloak (arquivo [keycloak-examples-1.4.0.Final.zip](http://downloads.jboss.org/keycloak/1.4.0.Final/keycloak-examples-1.4.0.Final.zip) podem ser todos testados nesse ambiente.
+Os exemplos do Keycloak (arquivo [keycloak-examples-1.5.0.Final.zip](http://downloads.jboss.org/keycloak/1.5.0.Final/keycloak-examples-1.5.0.Final.zip) podem ser todos testados nesse ambiente.
 
 Uma forma de testar esses exemplos, passo a passo, é descrita no projeto [tutorial-keycloak](http://github.com/paulojeronimo/tutorial-keycloak).
 
-Para rodar os testes do exemplo ``preconfigured-demo`` aqui, neste ambiente, copie o arquivo keycloak-examples-1.4.0.Final.zip para o diretório ``binarios``. Instale o Maven. Em seguida vá para o diretório ``HOME`` deste projeto e execute:
+Para rodar os testes do exemplo ``preconfigured-demo`` aqui, neste ambiente, copie o arquivo keycloak-examples-1.5.0.Final.zip para o diretório ``binarios``. Instale o Maven. Em seguida vá para o diretório ``HOME`` deste projeto e execute:
 
 ```
-unzip -d exemplos binarios/keycloak-examples-1.4.0.Final.zip
-cd exemplos/keycloak-examples-1.4.0.Final/preconfigured-demo/
+unzip -d exemplos binarios/keycloak-examples-1.5.0.Final.zip
+cd exemplos/keycloak-examples-1.5.0.Final/preconfigured-demo/
 mvn clean install
 ```
 
