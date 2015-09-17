@@ -441,8 +441,10 @@ exportar_keycloak_realm() {
     rm -rf "$dir"
     mkdir -p "$dir"
 
-    "$JBOSS_HOME"/bin/standalone.sh \
-        -Dkeycloak.migration.action=export \
+    [[ $OSTYPE = cygwin ]] && dir=`cygpath -m "$dir"`
+
+    JBOSS_HOME="$JBOSS_EAP_HOME" "$JBOSS_EAP_HOME"/bin/standalone.sh \
+        -Dkeycloak.migration.action='export' \
         -Dkeycloak.migration.provider=dir \
         -Dkeycloak.migration.dir="$dir" \
         -Dkeycloak.migration.realmName=$KEYCLOAK_REALM_NAME \
