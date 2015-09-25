@@ -1,6 +1,45 @@
-PROJETOS_DIR=${PROJETOS_DIR:-~/Projects}
-JBOSS_EAP_INSTALA_DIR=$PROJETOS_DIR/github.com/paulojeronimo/gerador-jboss-bpmsuite-keycloak
-DOCKER_ORACLE_XE_HOME=$PROJETOS_DIR/github.com/paulojeronimo/docker-oracle-xe
+#!/bin/bash
 
-gerador() { cd "$JBOSS_EAP_INSTALA_DIR"; }
-oracle() { cd "$DOCKER_ORACLE_XE_HOME"; }
+VERBOSO=${VERBOSO:-false}
+[[ $PLATAFORMA = Cygwin ]] && FERRAMENTAS_DIR=C:/tools/java
+PROJETOS_DIR=${PROJETOS_DIR:-~/Projects}
+PROJECT_HOME=${PROJECT_HOME:-$PROJETOS_DIR/github.com/paulojeronimo/gerador-jboss-bpmsuite-keycloak}
+DOCKER_ORACLE_XE_HOME=${DOCKER_ORACLE_XE_HOME:-$PROJETOS_DIR/github.com/paulojeronimo/docker-oracle-xe}
+JBOSS_INSTALA_DIR=$PROJECT_HOME
+
+if ! source "$PROJECT_HOME/gerar.config" &> /dev/null
+then
+    $VERBOSO && echo "Carregando as configurações feitas no arquivo \"$PROJECT_HOME/gerar.config.exemplo\" ..."
+    if ! source "$PROJECT_HOME"/gerar.config.exemplo &> /dev/null
+    then
+        echo "As configurações não puderam ser carregadas! Verifique o arquivo!"
+    fi
+else
+    $VERBOSO && echo "Carregadas as configurações feitas no arquivo \"$PROJECT_HOME/gerar.config\" ..."
+fi
+
+export COMUM_PATCHES_DIR=$COMUM_DIR/$JBOSS_A_CONFIGURAR_DIR
+export PATCHES_DIR=$DESENVOLVIMENTO_DIR/$JBOSS_A_CONFIGURAR_DIR
+
+gerador() { 
+    cd "$PROJECT_HOME"
+}
+
+oracle() {
+    cd "$DOCKER_ORACLE_XE_HOME"
+}
+
+ajustar_variaveis() {
+    local dir=${PWD##$PROJECT_HOME/}
+
+    case $dir in
+        desenvolvimento|homologacao/keycloak|homologacao/jboss-bpmsuite)
+            export PATCHES_DIR="$PROJECT_HOME"/$dir/$JBOSS_A_CONFIGURAR_DIR
+            export JBOSS_HOME="$PROJECT_HOME"/$dir/$JBOSS_EAP_DIR
+            export PATH="$JBOSS_EAP_HOME":$PATH
+            ;;
+        *)
+            echo "\"$PWD\" não é um diretório válido para a execução desta função!"
+            ;;
+    esac
+}
